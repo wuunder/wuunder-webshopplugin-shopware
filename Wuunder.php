@@ -29,9 +29,6 @@ class Wuunder extends Plugin
     public function onStartDispatch()
     {
         require_once $this->getPath() . '/vendor/autoload.php';
-        /** @var \Enlight_Loader $loader */
-        $loader = $this->container->get('loader');
-        $loader->registerNamespace('Shopware\Components', $this->getPath() . '/Components/');
     }
 
     public function onPostDispatch(Enlight_Event_EventArgs $args)
@@ -72,7 +69,8 @@ class Wuunder extends Plugin
         //Drop schema
         try {
             $schema_tool->dropSchema($meta_data);
-        } catch (\Exception $e) { /* Ignore Exception*/ }
+        } catch (\Exception $e) { /* Ignore Exception*/
+        }
 
         $schema_tool->createSchema($meta_data);
     }
@@ -104,6 +102,7 @@ class Wuunder extends Plugin
         //Drop schema
         try {
             $schema_tool->dropSchema($meta_data);
-        } catch (\Exception $e) { /* Ignore Exception*/ }
+        } catch (\Exception $e) { /* Ignore Exception*/
+        }
     }
 }

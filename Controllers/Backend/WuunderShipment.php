@@ -2,14 +2,13 @@
 
 use Httpful\Request;
 use Httpful\Mime;
+use Shopware\Models\Order\Order;
 
 class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_Backend_Application
 {
     protected $model = 'Shopware\Models\Order\WuunderShipment';
     protected $alias = 'wuunder_shipment';
 
-    private static $CREDENTIALS = 'admin:yMcpdFUIm479Ddldz5K7xHHOXkM16eIKld0s3NuX';
-    private static $WEBHOOK_RESOURCE = 'donne1.sition-klanten.nl/api/wuunder_shipment';
     private static $WUUNDER_REDIRECT = 'https://api-staging.wuunder.co/api/bookings?';
 
     private static $HEADERS = [
@@ -27,7 +26,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_
     {
         $order_id = $this->Request()->getParam('order_id');
 
-        file_put_contents('req.txt', $this->getWuunderRedirectUrl() . "\r\n", FILE_APPEND);
         $res = Request::post($this->getWuunderRedirectUrl(), $this->getData($order_id))
             ->addHeaders(self::$HEADERS)
             ->sendsAndExpects(Mime::JSON)
@@ -37,9 +35,21 @@ class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_
         $this->returnJson(['redirect' => $redirect]);
     }
 
+    private function getWuunderRedirectUrl()
+    {
+        $shop = $this->getShop();
+
+        $redirect_url = 'http://' . $shop->getHost() . '/backend';
+        $redirect_url = 'redirect_url=' . urlencode($redirect_url);
+        $webhook_url = 'http://' . $shop->getHost() . '/wuunder_shipment';
+        $webhook_url = 'webhook_url=' . urlencode($webhook_url);
+
+        return self::$WUUNDER_REDIRECT . $redirect_url . '&' . $webhook_url;
+    }
+
     private function getData($order_id)
     {
-        $order_repo = Shopware()->Models()->getRepository(\Shopware\Models\Order\Order::class);
+        $order_repo = Shopware()->Models()->getRepository(Order::class);
 
         /** @var Shopware\Models\Order\Order $order */
         $order = $order_repo->find($order_id);
@@ -72,15 +82,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_
         return $body;
     }
 
-    private function getWuunderRedirectUrl()
-    {
-        $redirect_url = 'http://donne1.sition-klanten.nl/backend';
-        $redirect_url = 'redirect_url=' . urlencode($redirect_url);
-        $webhook_url = 'http://' . self::$CREDENTIALS . '@' . self::$WEBHOOK_RESOURCE;
-        $webhook_url = 'webhook_url=' . urlencode($webhook_url);
-        return self::$WUUNDER_REDIRECT . $redirect_url . '&' . $webhook_url;
-    }
-
     private function getPickupAddress()
     {
         $config = Shopware()->Container()
@@ -101,6 +102,14 @@ class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_
             'street_name' => $config['street_name'],
             'zip_code' => $config['zip_code'],
         ];
+    }
+
+    private function getShop()
+    {
+        $em = $this->get('models');
+        $repo = $em->getRepository(Shopware\Models\Shop\Shop::class);
+        $shop = $repo->findById(1);
+        return $shop[0];
     }
 
     protected function returnJson($data, $httpCode = 200)
