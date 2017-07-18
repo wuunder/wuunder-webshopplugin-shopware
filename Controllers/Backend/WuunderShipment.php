@@ -2,12 +2,14 @@
 
 use Httpful\Request;
 use Httpful\Mime;
+use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Order\Order;
+use Wuunder\Controllers\Traits\ReturnsJson;
+use Wuunder\Models\WuunderShipment;
 
-class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_Backend_Application
+class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
-    protected $model = 'Shopware\Models\Order\WuunderShipment';
-    protected $alias = 'wuunder_shipment';
+    use ReturnsJson;
 
     private static $WUUNDER_REDIRECT = 'https://api-staging.wuunder.co/api/bookings?';
 
@@ -17,16 +19,18 @@ class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_
         'Content-Type' => 'application/json',
     ];
 
-    public function __construct(Enlight_Controller_Request_Request $request, Enlight_Controller_Response_Response $response)
+    public function getWhitelistedCSRFActions()
     {
-        parent::__construct($request, $response);
+        return ['redirect', 'getShipments'];
     }
 
     public function redirectAction()
     {
-        $order_id = $this->Request()->getParam('order_id');
+        $order_id = $this->Request()->getPost('order_id');
+        $url = $this->getWuunderRedirectUrl($order_id);
+        $data = $this->getData($order_id);
 
-        $res = Request::post($this->getWuunderRedirectUrl(), $this->getData($order_id))
+        $res = Request::post($url, $data)
             ->addHeaders(self::$HEADERS)
             ->sendsAndExpects(Mime::JSON)
             ->send();
@@ -35,13 +39,30 @@ class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_
         $this->returnJson(['redirect' => $redirect]);
     }
 
-    private function getWuunderRedirectUrl()
+    public function getShipmentsAction()
+    {
+        $order_id = $this->Request()->getPost()['order_id'];
+
+        /** @var \Doctrine\ORM\EntityManager $em */
+        $em = $this->get('models');
+        $order_repo = $em->getRepository(Order::class);
+        $shipment_repo = $em->getRepository(WuunderShipment::class);
+        $order = $order_repo->findBy(['id' => $order_id])[0];
+        $shipments = $shipment_repo->findBy(['order_id' => $order_id]);
+        $shipments = array_map(function (WuunderShipment $shipment) {
+            return $shipment->getData();
+        }, $shipments);
+
+        $this->returnJson(['order_nr' => $order->getNumber(), 'shipments' => $shipments]);
+    }
+
+    private function getWuunderRedirectUrl($order_id)
     {
         $shop = $this->getShop();
 
         $redirect_url = 'http://' . $shop->getHost() . '/backend';
         $redirect_url = 'redirect_url=' . urlencode($redirect_url);
-        $webhook_url = 'http://' . $shop->getHost() . '/wuunder_shipment';
+        $webhook_url = 'http://' . $shop->getHost() . '/wuunder_shipment?order_id=' . $order_id;
         $webhook_url = 'webhook_url=' . urlencode($webhook_url);
 
         return self::$WUUNDER_REDIRECT . $redirect_url . '&' . $webhook_url;
@@ -76,7 +97,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_
         $body = [
             'pickup_address' => $this->getPickupAddress(),
             'delivery_address' => $delivery_address,
-            'customer_reference' => $order->getNumber() . ' - ' . $customer->getNumber(),
+            'customer_reference' => $customer->getNumber(),
         ];
 
         return $body;
@@ -110,18 +131,5 @@ class Shopware_Controllers_Backend_WuunderShipment extends Shopware_Controllers_
         $repo = $em->getRepository(Shopware\Models\Shop\Shop::class);
         $shop = $repo->findById(1);
         return $shop[0];
-    }
-
-    protected function returnJson($data, $httpCode = 200)
-    {
-        if ($httpCode !== 200) {
-            http_response_code(intval($httpCode));
-        }
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
-
-        exit;
     }
 }

@@ -24,7 +24,7 @@ class WuunderShipment extends ModelEntity
     private $order_id;
 
     /**
-     * @ORM\Column(name="data", type="string", nullable=false)
+     * @ORM\Column(name="data", type="text", nullable=false)
      */
     private $data;
 
