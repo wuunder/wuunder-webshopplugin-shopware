@@ -10,6 +10,7 @@
 
         <button id="new_shipment" class="btn btn-primary">New shipment</button>
         <button id="track_and_trace" class="btn btn-primary">Track & Trace</button>
+        <button id="print_label" class="btn btn-primary">Print Label</button>
     </div>
 {/block}
 
@@ -22,9 +23,11 @@
             var status_bar = '#status';
             var new_shipment = '#new_shipment';
             var track_and_trace = '#track_and_trace';
+            var print_label = '#print_label';
 
             $(new_shipment).hide();
             $(track_and_trace).hide();
+            $(print_label).hide();
 
             function setStatus(status) {
                 $(status_bar).html('<strong>Status: </strong>' + status);
@@ -66,7 +69,12 @@
                         $(track_and_trace).click(function (e) {
                             window.open(shipment.track_and_trace_url, '_blank');
                         });
+                        $(print_label).click(function (e) {
+                            window.open(shipment.label_url, '_blank');
+                        });
+
                         $(track_and_trace).show();
+                        $(print_label).show();
                         setStatus(humanize(shipment.status))
                     }
                 }
