@@ -24,22 +24,78 @@ class WuunderShipment extends ModelEntity
     private $order_id;
 
     /**
-     * @ORM\Column(name="data", type="text", nullable=false)
+     * @ORM\Column(name="label_id", type="text", nullable=true)
      */
-    private $data;
+    private $label_id;
+
+    /**
+     * @ORM\Column(name="label_url", type="text", nullable=true)
+     */
+    private $label_url;
+
+    /**
+     * @ORM\Column(name="booking_token", type="text", nullable=false)
+     */
+    private $booking_token;
 
     public function setOrderId($order_id)
     {
         $this->order_id = $order_id;
     }
 
-    public function getData()
+    /**
+     * @return mixed
+     */
+    public function getLabelId()
     {
-        return json_decode($this->data);
+        return $this->label_id;
     }
 
-    public function setData($data)
+    /**
+     * @param mixed $label_id
+     */
+    public function setLabelId($label_id)
     {
-        $this->data = json_encode($data);
+        $this->label_id = $label_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLabelUrl()
+    {
+        return $this->label_url;
+    }
+
+    /**
+     * @param mixed $label_url
+     */
+    public function setLabelUrl($label_url)
+    {
+        $this->label_url = $label_url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBookingToken()
+    {
+        return $this->booking_token;
+    }
+
+    /**
+     * @param mixed $booking_token
+     */
+    public function setBookingToken($booking_token)
+    {
+        $this->booking_token = $booking_token;
+    }
+
+    public function getData() {
+        return array(
+            "id" => $this->label_id,
+            "url" => $this->label_url,
+            "token" => $this->booking_token
+        );
     }
 }

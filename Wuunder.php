@@ -20,6 +20,7 @@ class Wuunder extends Plugin
         return [
             'Enlight_Controller_Front_StartDispatch' => 'onStartDispatch',
             'Enlight_Controller_Action_PostDispatchSecure_Backend_Order' => 'onPostDispatch',
+            'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'test'
         ];
     }
 
@@ -29,6 +30,18 @@ class Wuunder extends Plugin
     public function onStartDispatch()
     {
         require_once $this->getPath() . '/vendor/autoload.php';
+    }
+
+    public function test(Enlight_Event_EventArgs $args)
+    {
+        /** @var \Enlight_Controller_Action $controller */
+        $controller = $args->getSubject();
+        $view = $controller->View();
+
+        if ($view->hasTemplate()) {
+            $view->addTemplateDir(__DIR__ . '/Resources/views/');
+            $view->extendsTemplate('backend/wuunder_module/header.tpl');
+        }
     }
 
     public function onPostDispatch(Enlight_Event_EventArgs $args)
@@ -49,6 +62,15 @@ class Wuunder extends Plugin
             $view->extendsTemplate('backend/wuunder/view/list.js');
             $view->extendsTemplate('backend/wuunder/view/panel.js');
             $view->extendsTemplate('backend/wuunder/controller/list.js');
+        }
+
+        if ($request->getActionName() === 'getList') {
+            $assignedData = $view->getAssign('data');
+
+            foreach($assignedData as $key => $order) {
+                $assignedData[$key]["wuunderShipmentData"] = json_encode($this->getShipmentData(intval($assignedData[$key]['id'])));
+            }
+            $view->data = $assignedData;
         }
     }
 
@@ -104,5 +126,20 @@ class Wuunder extends Plugin
             $schema_tool->dropSchema($meta_data);
         } catch (\Exception $e) { /* Ignore Exception*/
         }
+    }
+
+    private function getShipmentData($order_id) {
+
+        /** @var EntityManager $em */
+        $em = $this->container->get('models');
+//        $order_repo = $em->getRepository(Order::class);
+        $shipment_repo = $em->getRepository(WuunderShipment::class);
+//        $order = $order_repo->findBy(['id' => $order_id])[0];
+        $shipments = $shipment_repo->findBy(['order_id' => $order_id]);
+        $shipments = array_map(function (WuunderShipment $shipment) {
+            return $shipment->getData();
+        }, $shipments);
+
+        return $shipments[0];
     }
 }

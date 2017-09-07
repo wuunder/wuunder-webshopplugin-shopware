@@ -1,3 +1,7 @@
+//{block name="backend/order/model/order/fields" append}
+{ name: 'wuunderShipmentData', type: 'string', useNull: true },
+//{/block}
+
 //{block name="backend/order/view/list/list"}
 // {$smarty.block.parent}
 Ext.define('Shopware.apps.Wuunder.view.List', {
@@ -14,9 +18,18 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
         var me = this;
 
         return {
-            iconCls: 'sprite-box',
+            // iconCls: 'wuunder-create-icon',
             action: 'shipOrder',
             tooltip: 'Ship with Wuunder',
+            dataIndex:'wuunderShipmentData',
+            getClass: function (value, meta, record, rowIndex, colIndex, store) {
+                console.log();
+                var data =
+                // This method can also be used to set the tooltip dynamically
+                this.items[0].tooltip = 'Click to open the ' + record.data.toolname + ' window';
+
+                if ()
+            },
             /**
              * Add button handler to fire the showDetail event which is handled
              * in the list controller.
@@ -35,6 +48,7 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
 
         return Ext.create('Ext.grid.column.Action', {
             width: 50,
+            dataIndex:'wuunderShipmentData',
             items: [
                 me.createWuunderIcon()
             ]

@@ -43,7 +43,7 @@
 
             $.ajax({
                 method: 'POST',
-                url: '/backend/wuunder_shipment/get_shipments',
+                url: '/shopware/backend/wuunder_shipment/get_shipments',
                 data: { order_id: order_id },
                 success: function (data) {
                     $(main_content).show();
@@ -53,7 +53,7 @@
                         $(new_shipment).click(function (e) {
                             $.ajax({
                                 method: 'POST',
-                                url: '/backend/wuunder_shipment/redirect',
+                                url: '/shopware/backend/wuunder_shipment/redirect',
                                 data: { order_id: order_id },
                                 success: function (data) {
                                     window.open(data.redirect, "_blank");
