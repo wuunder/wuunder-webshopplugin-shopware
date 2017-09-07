@@ -39,23 +39,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $this->returnJson(['redirect' => $redirect]);
     }
 
-    public function getShipmentsAction()
-    {
-        $order_id = $this->Request()->getPost()['order_id'];
-
-        /** @var \Doctrine\ORM\EntityManager $em */
-        $em = $this->get('models');
-        $order_repo = $em->getRepository(Order::class);
-        $shipment_repo = $em->getRepository(WuunderShipment::class);
-        $order = $order_repo->findBy(['id' => $order_id])[0];
-        $shipments = $shipment_repo->findBy(['order_id' => $order_id]);
-        $shipments = array_map(function (WuunderShipment $shipment) {
-            return $shipment->getData();
-        }, $shipments);
-
-        $this->returnJson(['order_nr' => $order->getNumber(), 'shipments' => $shipments]);
-    }
-
     private function getWuunderRedirectUrl($order_id)
     {
         $shop = $this->getShop();

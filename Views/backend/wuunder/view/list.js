@@ -23,12 +23,15 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
             tooltip: 'Ship with Wuunder',
             dataIndex:'wuunderShipmentData',
             getClass: function (value, meta, record, rowIndex, colIndex, store) {
-                console.log();
-                var data =
-                // This method can also be used to set the tooltip dynamically
-                this.items[0].tooltip = 'Click to open the ' + record.data.toolname + ' window';
+                var data = JSON.parse(record.data.wuunderShipmentData);
 
-                if ()
+                if (data !== null) {
+                    if (data.id !== "") {
+                        return "wuunder-print-icon";
+                    } else {
+                        return "wuunder-create-icon";
+                    }
+                }
             },
             /**
              * Add button handler to fire the showDetail event which is handled
