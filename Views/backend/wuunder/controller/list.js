@@ -25,8 +25,6 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
                 window.open(data.redirect, "_blank");
             }
         });
-        // localStorage.setItem('wuunder_order_id', record.get('id'));
-        // Shopware.ModuleManager.createSimplifiedModule("WuunderModule", { "title": "Wuunder" });
     }
 });
 //{/block}

@@ -15,7 +15,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
     private static $HEADERS = [
         'Accept' => 'application/json+v1',
-        'Authorization' => 'Bearer -kF_tkAHRdTjgbZhXYNj7hpBlytcPrdH',
+        'Authorization' => 'Bearer YVc7rKdM6e6Q_HQK81NCt7SM0LT0TtQB',
         'Content-Type' => 'application/json',
     ];
 
@@ -27,6 +27,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
     public function redirectAction()
     {
         $order_id = $this->Request()->getPost('order_id');
+
         $url = $this->getWuunderRedirectUrl($order_id);
         $data = $this->getData($order_id);
 
@@ -36,6 +37,16 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             ->send();
 
         $redirect = $res->headers->toArray()['location'];
+
+        $entity_manager = $this->get('models');
+
+        $shipment = new WuunderShipment();
+        $shipment->setOrderId($order_id);
+        $shipment->setBookingUrl($redirect);
+        $shipment->setBookingToken("testtoken");
+        $entity_manager->persist($shipment);
+        $entity_manager->flush();
+
         $this->returnJson(['redirect' => $redirect]);
     }
 

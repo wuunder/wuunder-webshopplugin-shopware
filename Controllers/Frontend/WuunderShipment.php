@@ -12,12 +12,11 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
     {
         $order_id = $this->Request()->getParams()['order_id'];
         $params = json_decode(file_get_contents('php://input'), true);
-        file_put_contents('params.txt',json_encode($params));
         $entity_manager = $this->container->get('models');
 
-        $shipment = new WuunderShipment();
-        $shipment->setOrderId($order_id);
-        $shipment->setData($params['shipment']);
+        $shipment_repo = $entity_manager->getRepository(WuunderShipment::class);
+        $shipment = $shipment_repo->findOneBy(['order_id' => $order_id]);
+        $shipment->setLabelId(json_encode($params));
         $entity_manager->persist($shipment);
         $entity_manager->flush();
 

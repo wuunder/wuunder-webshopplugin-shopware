@@ -1,6 +1,6 @@
 {block name="backend/base/header/css" append}
 <style type="text/css">
-    .wuunder-create-icon {
+    .wuunder-icons {
         display: block;
         width: 20px;
         height: 20px;
@@ -12,10 +12,10 @@
     .wuunder-create-icon {
         background-image: url("{link file="backend/_resources/images/create-label.png"}");
     }
-    wuunder-print-icon {
+    .wuunder-print-icon {
         background-image: url("{link file="backend/_resources/images/print-label.png"}");
     }
-    wuunder-track-icon {
+    .wuunder-track-icon {
         background-image: url("{link file="backend/_resources/images/in-transit.png"}");
     }
 </style>

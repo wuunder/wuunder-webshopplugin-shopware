@@ -38,6 +38,11 @@ class WuunderShipment extends ModelEntity
      */
     private $booking_token;
 
+    /**
+     * @ORM\Column(name="booking_url", type="text", nullable=true)
+     */
+    private $booking_url;
+
     public function setOrderId($order_id)
     {
         $this->order_id = $order_id;
@@ -94,8 +99,25 @@ class WuunderShipment extends ModelEntity
     public function getData() {
         return array(
             "id" => $this->label_id,
-            "url" => $this->label_url,
-            "token" => $this->booking_token
+            "labelUrl" => $this->label_url,
+            "token" => $this->booking_token,
+            "bookingUrl" => $this->booking_url
         );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBookingUrl()
+    {
+        return $this->booking_url;
+    }
+
+    /**
+     * @param mixed $booking_url
+     */
+    public function setBookingUrl($booking_url)
+    {
+        $this->booking_url = $booking_url;
     }
 }

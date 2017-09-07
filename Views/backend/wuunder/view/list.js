@@ -24,14 +24,15 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
             dataIndex:'wuunderShipmentData',
             getClass: function (value, meta, record, rowIndex, colIndex, store) {
                 var data = JSON.parse(record.data.wuunderShipmentData);
-
+                console.log(data);
                 if (data !== null) {
                     if (data.id !== "") {
-                        return "wuunder-print-icon";
+                        return "wuunder-icons wuunder-print-icon";
                     } else {
-                        return "wuunder-create-icon";
+                        return "wuunder-icons wuunder-create-icon";
                     }
                 }
+                return "wuunder-icons wuunder-create-icon";
             },
             /**
              * Add button handler to fire the showDetail event which is handled
