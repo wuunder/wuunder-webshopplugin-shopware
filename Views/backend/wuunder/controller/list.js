@@ -8,7 +8,8 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
 
         me.control({
             'order-list-main-window order-list': {
-                shipOrder: me.onShipOrder
+                shipOrder: me.onShipOrder,
+                printLabel: me.onPrintLabel
             }
         });
 
@@ -25,6 +26,9 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
                 window.open(data.redirect, "_blank");
             }
         });
+    },
+    onPrintLabel: function (url) {
+        window.open(url);
     }
 });
 //{/block}

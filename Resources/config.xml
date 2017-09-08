@@ -31,7 +31,7 @@
             <label>Street name</label>
             <value>MutinyStreet</value>
         </element>
-        <element type="number">
+        <element type="text">
             <name>house_number</name>
             <label>House number</label>
             <value>99</value>

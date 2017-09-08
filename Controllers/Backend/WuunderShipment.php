@@ -42,7 +42,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $shipment = new WuunderShipment();
         $shipment->setOrderId($order_id);
-        $shipment->setBookingUrl($redirect);
+        $shipment->setBookingUrl(json_encode($data));
         $shipment->setBookingToken("testtoken");
         $entity_manager->persist($shipment);
         $entity_manager->flush();
@@ -54,9 +54,9 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
     {
         $shop = $this->getShop();
 
-        $redirect_url = 'http://' . $shop->getHost() . '/backend';
+        $redirect_url = 'http://' . $shop->getHost() . '/shopware/backend';
         $redirect_url = 'redirect_url=' . urlencode($redirect_url);
-        $webhook_url = 'http://' . $shop->getHost() . '/wuunder_shipment?order_id=' . $order_id;
+        $webhook_url = 'http://' . $shop->getHost() . '/shopware/wuunder_shipment?order_id=' . $order_id;
         $webhook_url = 'webhook_url=' . urlencode($webhook_url);
 
         return self::$WUUNDER_REDIRECT . $redirect_url . '&' . $webhook_url;
@@ -68,24 +68,26 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         /** @var Shopware\Models\Order\Order $order */
         $order = $order_repo->find($order_id);
+        $shippingAddress = $order->getShipping();
+
         $customer = $order->getCustomer();
         $address = $customer->getDefaultShippingAddress();
-        $address_parts = explode(' ', $address->getStreet());
+        $address_parts = explode(' ', $shippingAddress->getStreet());
         $street_name = trim($address_parts[0]);
         $house_number = trim($address_parts[1]);
 
         $delivery_address = [
-            'business' => $address->getCompany(),
+            'business' => $shippingAddress->getCompany(),
             'chamber_of_commerce_number' => $address->getVatId(),
-            'country' => $address->getCountry()->getIso(),
+            'country' => $shippingAddress->getCountry()->getIso(),
             'email_address' => $customer->getEmail(),
-            'family_name' => $customer->getLastname(),
-            'given_name' => $customer->getFirstname(),
+            'family_name' => $shippingAddress->getLastname(),
+            'given_name' => $shippingAddress->getFirstname(),
             'house_number' => $house_number,
-            'locality' => $address->getCity(),
+            'locality' => $shippingAddress->getCity(),
             'phone_number' => $address->getPhone(),
             'street_name' => $street_name,
-            'zip_code' => $address->getZipcode(),
+            'zip_code' => $shippingAddress->getZipcode(),
         ];
 
         $body = [
@@ -111,9 +113,9 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'email_address' => $config['email'],
             'family_name' => $config['lastname'],
             'given_name' => $config['firstname'],
-//            'house_number' => $config['house_number'],
+            'house_number' => $config['house_number'],
             'locality' => $config['locality'],
-//            'phone_number' => $config['phone_number'],
+            'phone_number' => $config['phone_number'],
             'street_name' => $config['street_name'],
             'zip_code' => $config['zip_code'],
         ];

@@ -132,9 +132,7 @@ class Wuunder extends Plugin
 
         /** @var EntityManager $em */
         $em = $this->container->get('models');
-//        $order_repo = $em->getRepository(Order::class);
         $shipment_repo = $em->getRepository(WuunderShipment::class);
-//        $order = $order_repo->findBy(['id' => $order_id])[0];
         $shipments = $shipment_repo->findBy(['order_id' => $order_id]);
         $shipments = array_map(function (WuunderShipment $shipment) {
             return $shipment->getData();

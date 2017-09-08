@@ -16,7 +16,10 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
 
         $shipment_repo = $entity_manager->getRepository(WuunderShipment::class);
         $shipment = $shipment_repo->findOneBy(['order_id' => $order_id]);
-        $shipment->setLabelId(json_encode($params));
+        $data = $params['shipment'];
+        //$tt = $data['track_and_trace_url'];
+        $shipment->setLabelId($data['id']);
+        $shipment->setLabelUrl($data['label_url']);
         $entity_manager->persist($shipment);
         $entity_manager->flush();
 
