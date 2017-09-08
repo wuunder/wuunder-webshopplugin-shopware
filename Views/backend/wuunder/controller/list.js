@@ -9,6 +9,7 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
         me.control({
             'order-list-main-window order-list': {
                 shipOrder: me.onShipOrder,
+                resumeShipOrder: me.onResumeShipOrder,
                 printLabel: me.onPrintLabel
             }
         });
@@ -23,9 +24,12 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
             params: { order_id: record.get('id') },
             success: function (response, opts) {
                 var data = Ext.decode(response.responseText);
-                window.open(data.redirect, "_blank");
+                window.location = data.redirect;
             }
         });
+    },
+    onResumeShipOrder: function (url) {
+        window.location = url;
     },
     onPrintLabel: function (url) {
         window.open(url);

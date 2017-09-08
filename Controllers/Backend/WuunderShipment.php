@@ -42,7 +42,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $shipment = new WuunderShipment();
         $shipment->setOrderId($order_id);
-        $shipment->setBookingUrl(json_encode($data));
+        $shipment->setBookingUrl($redirect);
         $shipment->setBookingToken("testtoken");
         $entity_manager->persist($shipment);
         $entity_manager->flush();
@@ -76,6 +76,12 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $street_name = trim($address_parts[0]);
         $house_number = trim($address_parts[1]);
 
+        $description = "";
+        $orderDetails = $order->getDetails();
+        foreach ($orderDetails as $orderDetail) {
+            $description .= $orderDetail->getArticleName() . "\r\n";
+        }
+
         $delivery_address = [
             'business' => $shippingAddress->getCompany(),
             'chamber_of_commerce_number' => $address->getVatId(),
@@ -94,6 +100,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'pickup_address' => $this->getPickupAddress(),
             'delivery_address' => $delivery_address,
             'customer_reference' => $customer->getNumber(),
+            'description' => $description
         ];
 
         return $body;
