@@ -11,6 +11,8 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 {
     use ReturnsJson;
 
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.0", "plugin" => "1.0"));
+
     private static $WUUNDER_REDIRECT = 'https://api-staging.wuunder.co/api/bookings?';
 
     private static $HEADERS = [
@@ -100,7 +102,8 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'pickup_address' => $this->getPickupAddress(),
             'delivery_address' => $delivery_address,
             'customer_reference' => $customer->getNumber(),
-            'description' => $description
+            'description' => $description,
+            'source' => self::$WUUNDER_REDIRECT
         ];
 
         return $body;

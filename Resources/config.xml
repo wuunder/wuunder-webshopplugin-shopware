@@ -56,5 +56,10 @@
             <label>Chamber of commerce number</label>
             <value>NL831983DF3D</value>
         </element>
+        <element type="select">
+            <name>order_status</name>
+            <label>Order status after booking</label>
+            <store>Shopware.apps.Base.store.OrderStatus</store>
+        </element>
     </elements>
 </config>

@@ -43,6 +43,11 @@ class WuunderShipment extends ModelEntity
      */
     private $booking_url;
 
+    /**
+     * @ORM\Column(name="track_and_trace_url", type="text", nullable=true)
+     */
+    private $track_and_trace_url;
+
     public function setOrderId($order_id)
     {
         $this->order_id = $order_id;
@@ -101,7 +106,8 @@ class WuunderShipment extends ModelEntity
             "id" => $this->label_id,
             "labelUrl" => $this->label_url,
             "token" => $this->booking_token,
-            "bookingUrl" => $this->booking_url
+            "bookingUrl" => $this->booking_url,
+            "trackingAndTraceUrl" =>$this->track_and_trace_url
         );
     }
 
@@ -119,5 +125,21 @@ class WuunderShipment extends ModelEntity
     public function setBookingUrl($booking_url)
     {
         $this->booking_url = $booking_url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTrackAndTraceUrl()
+    {
+        return $this->track_and_trace_url;
+    }
+
+    /**
+     * @param mixed $track_and_trace_url
+     */
+    public function setTrackAndTraceUrl($track_and_trace_url)
+    {
+        $this->track_and_trace_url = $track_and_trace_url;
     }
 }
