@@ -7,7 +7,6 @@ Ext.define('Shopware.apps.Index.controller.WuunderMain', {
         var me = this;
         me.callParent(arguments);
         var openOrderOverview = Ext.util.Cookies.get('wuunderOrderOverviewAfterRedirect');
-        console.log("HERE2", openOrderOverview);
         if (openOrderOverview > 0) {
             me.onOpenOrderOverview();
             Ext.util.Cookies.set('wuunderOrderOverviewAfterRedirect', 0);
@@ -16,7 +15,6 @@ Ext.define('Shopware.apps.Index.controller.WuunderMain', {
     },
     onOpenOrderOverview: function () {
         Ext.Function.defer(function () {
-            console.log("HERE1");
             Shopware.app.Application.addSubApplication({
                 name: 'Shopware.apps.Order'
             });
