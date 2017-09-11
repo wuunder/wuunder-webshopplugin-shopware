@@ -54,11 +54,14 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
     private function getWuunderRedirectUrl($order_id)
     {
-        $shop = $this->getShop();
+        $config = Shopware()->Container()
+            ->get('shopware.plugin.config_reader')
+            ->getByPluginName('Wuunder');
+        $base_url = $config['base_url'];
 
-        $redirect_url = 'http://' . $shop->getHost() . '/shopware/backend';
+        $redirect_url = $base_url . '/backend';
         $redirect_url = 'redirect_url=' . urlencode($redirect_url);
-        $webhook_url = 'http://' . $shop->getHost() . '/shopware/wuunder_shipment?order_id=' . $order_id;
+        $webhook_url = $base_url . '/wuunder_shipment?order_id=' . $order_id;
         $webhook_url = 'webhook_url=' . urlencode($webhook_url);
 
         return self::$WUUNDER_REDIRECT . $redirect_url . '&' . $webhook_url;

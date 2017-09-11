@@ -18,5 +18,8 @@
     .wuunder-track-icon {
         background-image: url("{link file="backend/_resources/images/in-transit.png"}");
     }
+    .wuunder-hidden-icon {
+        display: none;
+    }
 </style>
 {/block}

@@ -15,7 +15,7 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
     },
 
     createWuunderIcon: function () {
-        var me = this;x
+        var me = this;
 
         return {
             // iconCls: 'wuunder-create-icon',
@@ -24,7 +24,6 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
             dataIndex:'wuunderShipmentData',
             getClass: function (value, meta, record, rowIndex, colIndex, store) {
                 var data = JSON.parse(record.data.wuunderShipmentData);
-                console.log(data);
                 if (data !== null) {
                     if (data.id !== "") {
                         return "wuunder-icons wuunder-print-icon";
@@ -43,10 +42,9 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
                     record = store.getAt(rowIndex);
 
                 var data = JSON.parse(record.data.wuunderShipmentData);
-                console.log(data);
                 if (data !== null) {
                     if (data.id !== "") {
-                        me.fireEvent('printLabel', record);
+                        me.fireEvent('printLabel', data.labelUrl);
                     } else {
                         me.fireEvent('shipOrder', record);
                     }

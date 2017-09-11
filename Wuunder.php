@@ -20,7 +20,7 @@ class Wuunder extends Plugin
         return [
             'Enlight_Controller_Front_StartDispatch' => 'onStartDispatch',
             'Enlight_Controller_Action_PostDispatchSecure_Backend_Order' => 'onPostDispatch',
-            'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'test'
+            'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'onPostDispatchBackendIndex'
         ];
     }
 
@@ -32,15 +32,20 @@ class Wuunder extends Plugin
         require_once $this->getPath() . '/vendor/autoload.php';
     }
 
-    public function test(Enlight_Event_EventArgs $args)
+    public function onPostDispatchBackendIndex(Enlight_Event_EventArgs $args)
     {
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->getSubject();
         $view = $controller->View();
+        $request = $controller->Request();
 
         if ($view->hasTemplate()) {
             $view->addTemplateDir(__DIR__ . '/Resources/views/');
             $view->extendsTemplate('backend/wuunder_module/header.tpl');
+        }
+        if ($request->getActionName() === 'load') {
+            $view->addTemplateDir(__DIR__ . '/Views');
+            $view->extendsTemplate('backend/wuunder/view/listener.js');
         }
     }
 
@@ -60,14 +65,13 @@ class Wuunder extends Plugin
         //Inject some backend ext.js extensions for the order module
         if ($request->getActionName() == 'load') {
             $view->extendsTemplate('backend/wuunder/view/list.js');
-            $view->extendsTemplate('backend/wuunder/view/panel.js');
             $view->extendsTemplate('backend/wuunder/controller/list.js');
         }
 
         if ($request->getActionName() === 'getList') {
             $assignedData = $view->getAssign('data');
 
-            foreach($assignedData as $key => $order) {
+            foreach ($assignedData as $key => $order) {
                 $assignedData[$key]["wuunderShipmentData"] = json_encode($this->getShipmentData(intval($assignedData[$key]['id'])));
             }
             $view->data = $assignedData;
@@ -128,7 +132,8 @@ class Wuunder extends Plugin
         }
     }
 
-    private function getShipmentData($order_id) {
+    private function getShipmentData($order_id)
+    {
 
         /** @var EntityManager $em */
         $em = $this->container->get('models');

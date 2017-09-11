@@ -61,5 +61,10 @@
             <label>Order status after booking</label>
             <store>Shopware.apps.Base.store.OrderStatus</store>
         </element>
+        <element type="text">
+            <name>base_url</name>
+            <label>Root url of the shopware installation</label>
+            <value>http://www.shopexample.com/shopware</value>
+        </element>
     </elements>
 </config>
