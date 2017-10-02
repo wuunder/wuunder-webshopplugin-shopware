@@ -1,5 +1,12 @@
 //{block name="backend/order/model/order/fields" append}
-{ name: 'wuunderShipmentData', type: 'string', useNull: true },
+{
+    name: 'wuunderShipmentData', type
+:
+    'string', useNull
+:
+    true
+}
+,
 //{/block}
 
 //{block name="backend/order/view/list/list"}
@@ -17,15 +24,15 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
     createWuunderIcon: function () {
         var me = this;
 
-        return {
+        return [{
             // iconCls: 'wuunder-create-icon',
             action: 'shipOrder',
             tooltip: 'Ship with Wuunder',
-            dataIndex:'wuunderShipmentData',
+            dataIndex: 'wuunderShipmentData',
             getClass: function (value, meta, record, rowIndex, colIndex, store) {
                 var data = JSON.parse(record.data.wuunderShipmentData);
                 if (data !== null) {
-                    if (data.id !== "") {
+                    if (data.id !== "" && data.id !== null) {
                         return "wuunder-icons wuunder-print-icon";
                     } else {
                         return "wuunder-icons wuunder-create-icon";
@@ -43,7 +50,7 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
 
                 var data = JSON.parse(record.data.wuunderShipmentData);
                 if (data !== null) {
-                    if (data.id !== "") {
+                    if (data.id !== "" && data.id !== null) {
                         me.fireEvent('printLabel', data.labelUrl);
                     } else {
                         me.fireEvent('shipOrder', record);
@@ -54,7 +61,41 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
 
 
             }
-        }
+        },
+            {
+                // iconCls: 'wuunder-create-icon',
+                action: 'shipOrder',
+                tooltip: 'Ship with Wuunder',
+                dataIndex: 'wuunderShipmentData',
+                getClass: function (value, meta, record, rowIndex, colIndex, store) {
+                    var data = JSON.parse(record.data.wuunderShipmentData);
+                    if (data !== null) {
+                        if (data.id !== "" && data.id !== null) {
+                            return "wuunder-icons wuunder-track-icon";
+                        } else {
+                            return "wuunder-icons wuunder-hidden-icon";
+                        }
+                    }
+                    return "wuunder-icons wuunder-hidden-icon";
+                },
+                /**
+                 * Add button handler to fire the showDetail event which is handled
+                 * in the list controller.
+                 */
+                handler: function (view, rowIndex, colIndex, item) {
+                    var store = view.getStore(),
+                        record = store.getAt(rowIndex);
+
+                    var data = JSON.parse(record.data.wuunderShipmentData);
+                    if (data !== null) {
+                        if (data.id !== "" && data.id !== null) {
+                            me.fireEvent('showTrackAndTrace', data.trackingAndTraceUrl);
+                        }
+                    }
+
+
+                }
+            }]
     },
 
     createWuunderColumn: function () {
@@ -62,10 +103,8 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
 
         return Ext.create('Ext.grid.column.Action', {
             width: 50,
-            dataIndex:'wuunderShipmentData',
-            items: [
-                me.createWuunderIcon()
-            ]
+            dataIndex: 'wuunderShipmentData',
+            items: me.createWuunderIcon()
         });
     }
 });
