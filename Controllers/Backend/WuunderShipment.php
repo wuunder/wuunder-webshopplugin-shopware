@@ -87,6 +87,20 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             $description .= $orderDetail->getArticleName() . "\r\n";
         }
 
+        $config = Shopware()->Container()
+            ->get('shopware.plugin.config_reader')
+            ->getByPluginName('Wuunder');
+
+        $selectedDispatch = $order->getDispatch()->getId();
+
+        $preferredServiceLevel = "";
+        for ($i=1; $i<5; $i++) {
+            if ($config['mapping_' . $i . '_method'] == $selectedDispatch) {
+                $preferredServiceLevel = $config['mapping_' . $i . '_filter'];
+                break;
+            }
+        }
+
         $delivery_address = [
             'business' => $shippingAddress->getCompany(),
             'chamber_of_commerce_number' => $address->getVatId(),
@@ -106,6 +120,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'delivery_address' => $delivery_address,
             'customer_reference' => $customer->getNumber(),
             'description' => $description,
+            'preferred_service_level' => $preferredServiceLevel,
             'source' => self::$WUUNDER_REDIRECT
         ];
 

@@ -19,7 +19,7 @@
         background-image: url("{link file="backend/_resources/images/in-transit.png"}");
     }
     .wuunder-hidden-icon {
-        display: none;
+        display: none !important;
     }
 </style>
 {/block}

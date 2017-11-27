@@ -66,5 +66,46 @@
             <label>Root url of the shopware installation</label>
             <value>http://www.shopexample.com/shopware</value>
         </element>
+        <!-- Filters -->
+        <element type="text">
+            <name>mapping_1_filter</name>
+            <label>Mapping #1: Filter</label>
+            <value></value>
+        </element>
+        <element type="select">
+            <name>mapping_1_method</name>
+            <label>Mapping #1: Method</label>
+            <store>Shopware.apps.Base.store.Dispatch</store>
+        </element>
+        <element type="text">
+            <name>mapping_2_filter</name>
+            <label>Mapping #2: Filter</label>
+            <value></value>
+        </element>
+        <element type="select">
+            <name>mapping_2_method</name>
+            <label>Mapping #2: Method</label>
+            <store>Shopware.apps.Base.store.Dispatch</store>
+        </element>
+        <element type="text">
+            <name>mapping_3_filter</name>
+            <label>Mapping #3: Filter</label>
+            <value></value>
+        </element>
+        <element type="select">
+            <name>mapping_3_method</name>
+            <label>Mapping #3: Method</label>
+            <store>Shopware.apps.Base.store.Dispatch</store>
+        </element>
+        <element type="text">
+            <name>mapping_4_filter</name>
+            <label>Mapping #4: Filter</label>
+            <value></value>
+        </element>
+        <element type="select">
+            <name>mapping_4_method</name>
+            <label>Mapping #4: Method</label>
+            <store>Shopware.apps.Base.store.Dispatch</store>
+        </element>
     </elements>
 </config>
