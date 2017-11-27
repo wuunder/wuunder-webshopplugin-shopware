@@ -121,7 +121,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'customer_reference' => $customer->getNumber(),
             'description' => $description,
             'preferred_service_level' => $preferredServiceLevel,
-            'source' => self::$WUUNDER_REDIRECT
+            'source' => self::$WUUNDER_PLUGIN_VERSION
         ];
 
         return $body;
