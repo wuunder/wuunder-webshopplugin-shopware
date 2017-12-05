@@ -11,14 +11,17 @@
   "currentVersion": "1.1.1",
   "changelog": {
     "nl": {
+      "1.1.1": "Added plugin.json",
       "1.1.0": "Added shopware structure",
       "1.0.0": "Wuunder module"
     },
     "en": {
+      "1.1.1": "Added plugin.json",
       "1.1.0": "Added shopware structure",
       "1.0.0": "Wuunder module"
     },
     "de": {
+      "1.1.1": "Added plugin.json",
       "1.1.0": "Added shopware structure",
       "1.0.0": "Wuunder module"
     }
