@@ -1,0 +1,26 @@
+{
+  "label": {
+    "nl": "Wuunder verzendmodule",
+    "en": "Wuunder shipping module"
+  },
+  "copyright": "(c) by Wuunder",
+  "license": "proprietary",
+  "link": "http:\/\/www.wearewuunder.com",
+  "author": "Wuunder",
+  "currentVersion": "1.1.0",
+  "changelog": {
+    "nl": {
+      "1.1.0": "Added shopware structure",
+      "1.0.0": "Wuunder module"
+    },
+    "en": {
+      "1.1.0": "Added shopware structure",
+      "1.0.0": "Wuunder module"
+    }
+  },
+  "compatibility": {
+    "minimumVersion": "5.3.0",
+    "maximumVersion": null,
+    "blacklist": []
+  }
+}
