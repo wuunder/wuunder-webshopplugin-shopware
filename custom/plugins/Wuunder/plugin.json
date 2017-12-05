@@ -8,7 +8,7 @@
   "license": "proprietary",
   "link": "http:\/\/www.wearewuunder.com",
   "author": "Wuunder",
-  "currentVersion": "1.1.1",
+  "currentVersion": "1.1.2",
   "changelog": {
     "nl": {
       "1.1.1": "Added plugin.json",

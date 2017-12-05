@@ -11,15 +11,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 {
     use ReturnsJson;
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.1.1", "plugin" => "1.0"));
-
-    private static $WUUNDER_REDIRECT = 'https://api-staging.wuunder.co/api/bookings?';
-
-    private static $HEADERS = [
-        'Accept' => 'application/json+v1',
-        'Authorization' => 'Bearer YVc7rKdM6e6Q_HQK81NCt7SM0LT0TtQB',
-        'Content-Type' => 'application/json',
-    ];
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.1.2", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -28,13 +20,24 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
     public function redirectAction()
     {
+
+        $config = Shopware()->Container()
+            ->get('shopware.plugin.config_reader')
+            ->getByPluginName('Wuunder');
+
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $config['api_key'],
+            'Content-Type' => 'application/json',
+        ];
+
         $order_id = $this->Request()->getPost('order_id');
 
         $url = $this->getWuunderRedirectUrl($order_id);
         $data = $this->getData($order_id);
 
         $res = Request::post($url, $data)
-            ->addHeaders(self::$HEADERS)
+            ->addHeaders($headers)
             ->sendsAndExpects(Mime::JSON)
             ->send();
 
@@ -49,7 +52,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $entity_manager->persist($shipment);
         $entity_manager->flush();
 
-        $this->returnJson(['redirect' => $redirect]);
+        $this->returnJson(['redirect' => $redirect, "error" => $res->body]);
     }
 
     private function getWuunderRedirectUrl($order_id)
@@ -64,7 +67,9 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $webhook_url = $base_url . '/wuunder_shipment?order_id=' . $order_id;
         $webhook_url = 'webhook_url=' . urlencode($webhook_url);
 
-        return self::$WUUNDER_REDIRECT . $redirect_url . '&' . $webhook_url;
+        $wuunder_redirect = $config['testmode'] === "1" ? 'https://api-staging.wuunder.co/api/bookings?' : 'https://api.wearewuunder.com/api/bookings?';
+
+        return $wuunder_redirect . $redirect_url . '&' . $webhook_url;
     }
 
     private function getData($order_id)
