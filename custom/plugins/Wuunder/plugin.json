@@ -1,7 +1,8 @@
 {
   "label": {
     "nl": "Wuunder verzendmodule",
-    "en": "Wuunder shipping module"
+    "en": "Wuunder shipping module",
+    "de": "Wuunder versand module"
   },
   "copyright": "(c) by Wuunder",
   "license": "proprietary",
@@ -14,6 +15,10 @@
       "1.0.0": "Wuunder module"
     },
     "en": {
+      "1.1.0": "Added shopware structure",
+      "1.0.0": "Wuunder module"
+    },
+    "de": {
       "1.1.0": "Added shopware structure",
       "1.0.0": "Wuunder module"
     }
