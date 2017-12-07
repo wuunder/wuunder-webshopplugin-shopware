@@ -19,9 +19,10 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
     },
 
     onShipOrder: function (record) {
+        var baseUrl = ("{config name='base_url' namespace='Wuunder'}");
         Ext.Ajax.request({
             method: 'POST',
-            url: '/shopware/backend/wuunder_shipment/redirect',
+            url: baseUrl + '/backend/wuunder_shipment/redirect',
             params: { order_id: record.get('id') },
             success: function (response, opts) {
                 var data = Ext.decode(response.responseText);
