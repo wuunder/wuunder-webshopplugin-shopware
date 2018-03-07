@@ -20,7 +20,7 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
         $shipment = $shipment_repo->findOneBy(['order_id' => $order_id]);
         $data = $params['shipment'];
 
-        if ($data != null) {
+        if ($params['action'] === "shipment_booked") {
           //$tt = $data['track_and_trace_url'];
           $shipment->setTrackAndTraceUrl($data['track_and_trace_url']);
           $shipment->setLabelId($data['id']);
