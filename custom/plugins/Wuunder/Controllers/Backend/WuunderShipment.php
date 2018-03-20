@@ -20,7 +20,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
     public function redirectAction()
     {
-
         $config = Shopware()->Container()
             ->get('shopware.plugin.config_reader')
             ->getByPluginName('Wuunder');
@@ -123,7 +122,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $body = [
             'pickup_address' => $this->getPickupAddress(),
             'delivery_address' => $delivery_address,
-            'customer_reference' => $customer->getNumber(),
+            'customer_reference' => $order->getNumber(),
             'description' => $description,
             'preferred_service_level' => $preferredServiceLevel,
             'source' => self::$WUUNDER_PLUGIN_VERSION

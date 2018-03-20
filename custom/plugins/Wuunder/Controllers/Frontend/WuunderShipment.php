@@ -16,28 +16,29 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
         $params = json_decode(file_get_contents('php://input'), true);
         $entity_manager = $this->container->get('models');
 
-
-
         $shipment_repo = $entity_manager->getRepository(WuunderShipment::class);
         $shipment = $shipment_repo->findOneBy(['order_id' => $order_id]);
         $data = $params['shipment'];
-        //$tt = $data['track_and_trace_url'];
-        $shipment->setTrackAndTraceUrl($data['track_and_trace_url']);
-        $shipment->setLabelId($data['id']);
-        $shipment->setLabelUrl($data['label_url']);
 
-        $order_repo = $entity_manager->getRepository(Order::class);
-        $order = $order_repo->find($order_id);
-        $config = $this->container
-            ->get('shopware.plugin.config_reader')
-            ->getByPluginName('Wuunder');
-        $orderState = $entity_manager->getRepository(Status::class)->find((int)$config['order_status']);
-        $order->setOrderStatus($orderState);
+        if ($params['action'] === "shipment_booked") {
+          //$tt = $data['track_and_trace_url'];
+          $shipment->setTrackAndTraceUrl($data['track_and_trace_url']);
+          $shipment->setLabelId($data['id']);
+          $shipment->setLabelUrl($data['label_url']);
 
-        $entity_manager->persist($shipment);
-        $entity_manager->flush();
+          $order_repo = $entity_manager->getRepository(Order::class);
+          $order = $order_repo->find($order_id);
+          $config = $this->container
+              ->get('shopware.plugin.config_reader')
+              ->getByPluginName('Wuunder');
+          $orderState = $entity_manager->getRepository(Status::class)->find((int)$config['order_status']);
+          $order->setOrderStatus($orderState);
 
-        $this->returnJson(['success' => true]);
+          $entity_manager->persist($shipment);
+          $entity_manager->flush();
+
+          $this->returnJson(['success' => true]);
+        }
     }
 
     /**
