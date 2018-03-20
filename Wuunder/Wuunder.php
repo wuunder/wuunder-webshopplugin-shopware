@@ -58,11 +58,7 @@ class Wuunder extends Plugin
 
         $view->addTemplateDir(__DIR__ . '/Views');
 
-        if ($request->getActionName() == 'index') {
-            //$view->extendsTemplate('backend/swag_extend_customer/app.js');
-        }
-
-        //Inject some backend ext.js extensions for the order module
+        // Extend templates
         if ($request->getActionName() == 'load') {
             $view->extendsTemplate('backend/wuunder/view/list.js');
             $view->extendsTemplate('backend/wuunder/controller/list.js');
