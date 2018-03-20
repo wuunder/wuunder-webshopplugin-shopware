@@ -1,4 +1,4 @@
-custom/plugins/Wuunder/composer.lock
-custom/plugins/Wuunder/vendor
-custom/plugins/Wuunder/vendor/*
+Wuunder/composer.lock
+Wuunder/vendor
+Wuunder/vendor/*
 .idea
