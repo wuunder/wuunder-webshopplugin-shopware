@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/5.4/engine/Shopware/Components/Plugin/schema/plugin.xsd">
+
+    <label lang="de">Wuunder versand module</label>
+    <label lang="en">Wuunder shipping module</label>
+    <label lang="nl">Wuunder verzendmodule</label>
+
+    <version>1.1.6</version>
+    <copyright>(c) by Wuunder</copyright>
+    <license>proprietary</license>
+    <link>http://www.wearewuunder.com</link>
+    <author>Wuunder</author>
+    <compatibility minVersion="5.3.0"/>
+
+    <changelog version="1.1.6">
+        <changes lang="de">Fixed plugin structure</changes>
+        <changes lang="en">Fixed plugin structure</changes>
+    </changelog>
+
+    <changelog version="1.1.5">
+        <changes lang="de">Fixed plugin structure</changes>
+        <changes lang="en">Fixed plugin structure</changes>
+    </changelog>
+
+    <changelog version="1.1.4">
+        <changes lang="de">Fixed plugin structure</changes>
+        <changes lang="en">Fixed plugin structure</changes>
+    </changelog>
+
+    <changelog version="1.1.3">
+        <changes lang="de">Fixed plugin structure</changes>
+        <changes lang="en">Fixed plugin structure</changes>
+    </changelog>
+
+    <changelog version="1.1.2">
+        <changes lang="de">Fixed plugin structure</changes>
+        <changes lang="en">Fixed plugin structure</changes>
+    </changelog>
+
+    <changelog version="1.1.1">
+        <changes lang="de">Added plugin.json</changes>
+        <changes lang="en">Added plugin.json</changes>
+    </changelog>
+
+    <changelog version="1.1.0">
+        <changes lang="de">Added shopware structur</changes>
+        <changes lang="en">Added shopware structur</changes>
+    </changelog>
+
+    <changelog version="1.0.0">
+        <changes lang="de">Added plugin.json</changes>
+        <changes lang="en">Added plugin.json</changes>
+    </changelog>
+</plugin>
