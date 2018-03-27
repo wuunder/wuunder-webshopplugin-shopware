@@ -11,7 +11,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 {
     use ReturnsJson;
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.1.6", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.2.0", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -66,7 +66,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $webhook_url = $base_url . '/wuunder_shipment?order_id=' . $order_id;
         $webhook_url = 'webhook_url=' . urlencode($webhook_url);
 
-        $wuunder_redirect = $config['testmode'] === "1" ? 'https://api-staging.wuunder.co/api/bookings?' : 'https://api.wearewuunder.com/api/bookings?';
+        $wuunder_redirect = $config['testmode'] === "1" ? 'https://api-staging.wearewuunder.com/api/bookings?' : 'https://api.wearewuunder.com/api/bookings?';
 
         return $wuunder_redirect . $redirect_url . '&' . $webhook_url;
     }
