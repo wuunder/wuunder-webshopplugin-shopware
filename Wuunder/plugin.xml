@@ -6,12 +6,17 @@
     <label lang="en">Wuunder shipping module</label>
     <label lang="nl">Wuunder verzendmodule</label>
 
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <copyright>(c) by Wuunder</copyright>
     <license>proprietary</license>
     <link>http://www.wearewuunder.com</link>
     <author>Wuunder</author>
     <compatibility minVersion="5.3.0"/>
+
+    <changelog version="1.2.1">
+        <changes lang="de">Fixed config</changes>
+        <changes lang="en">Fixed config</changes>
+    </changelog>
 
     <changelog version="1.2.0">
         <changes lang="de">Fixed wuunder api domain</changes>
