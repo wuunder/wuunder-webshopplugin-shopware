@@ -66,7 +66,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $webhook_url = $base_url . '/wuunder_shipment?order_id=' . $order_id;
         $webhook_url = 'webhook_url=' . urlencode($webhook_url);
 
-        $wuunder_redirect = $config['testmode'] === "1" ? 'https://api-staging.wearewuunder.com/api/bookings?' : 'https://api.wearewuunder.com/api/bookings?';
+        $wuunder_redirect = intval($config['testmode']) === 1 ? 'https://api-staging.wearewuunder.com/api/bookings?' : 'https://api.wearewuunder.com/api/bookings?';
 
         return $wuunder_redirect . $redirect_url . '&' . $webhook_url;
     }
