@@ -8,9 +8,10 @@
   "license": "proprietary",
   "link": "http:\/\/www.wearewuunder.com",
   "author": "Wuunder",
-  "currentVersion": "1.2.1",
+  "currentVersion": "1.2.2",
   "changelog": {
     "nl": {
+      "1.2.2": "Fixed check config",
       "1.2.1": "Fixed config",
       "1.2.0": "Fixed wuunder api domain",
       "1.1.6": "Fixed plugin structure",
@@ -23,6 +24,7 @@
       "1.0.0": "Wuunder module"
     },
     "en": {
+      "1.2.2": "Fixed check config",
       "1.2.1": "Fixed config",
       "1.2.0": "Fixed wuunder api domain",
       "1.1.6": "Fixed plugin structure",
@@ -35,6 +37,7 @@
       "1.0.0": "Wuunder module"
     },
     "de": {
+      "1.2.2": "Fixed check config",
       "1.2.1": "Fixed config",
       "1.2.0": "Fixed wuunder api domain",
       "1.1.6": "Fixed plugin structure",
