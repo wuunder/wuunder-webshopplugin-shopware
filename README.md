@@ -5,7 +5,7 @@ We make shipping any parcel, pallet and document easy, personal and efficient. A
 
 ## Install ##
 * Download the .zip file from this repository and unpack.
-* Use FTP to transfer the folder to the `Shopware/Plugins/Local/Backend/` folder.
+* Use FTP to transfer the folder to the `custom/plugins/` folder.
 * In the backend page of your ShopWare store go to the __Plugin Manager__ in: __Configuration__ -> __Plugin Manager__ -> __Management__ -> __Installed__.
 * Wuunder is located under __Uninstalled Plugins__ click "Open" and next "Install"
 * On the same page under __Configuration__ fill in the form containing your info and click "save".
