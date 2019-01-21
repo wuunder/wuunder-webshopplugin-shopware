@@ -21,23 +21,30 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
         $data = $params['shipment'];
 
         if ($params['action'] === "shipment_booked") {
-          //$tt = $data['track_and_trace_url'];
-          $shipment->setTrackAndTraceUrl($data['track_and_trace_url']);
-          $shipment->setLabelId($data['id']);
-          $shipment->setLabelUrl($data['label_url']);
+            //$tt = $data['track_and_trace_url'];
+            $shipment->setTrackAndTraceUrl($data['track_and_trace_url']);
+            $shipment->setLabelId($data['id']);
+            $shipment->setLabelUrl($data['label_url']);
 
-          $order_repo = $entity_manager->getRepository(Order::class);
-          $order = $order_repo->find($order_id);
-          $config = $this->container
-              ->get('shopware.plugin.config_reader')
-              ->getByPluginName('Wuunder');
-          $orderState = $entity_manager->getRepository(Status::class)->find((int)$config['order_status']);
-          $order->setOrderStatus($orderState);
+            $order_repo = $entity_manager->getRepository(Order::class);
+            $order = $order_repo->find($order_id);
+            $config = $this->container
+                ->get('shopware.plugin.config_reader')
+                ->getByPluginName('Wuunder');
+            $orderState = $entity_manager->getRepository(Status::class)->find((int)$config['order_status']);
+            $order->setOrderStatus($orderState);
 
-          $entity_manager->persist($shipment);
-          $entity_manager->flush();
+            $entity_manager->persist($shipment);
+            $entity_manager->flush();
 
-          $this->returnJson(['success' => true]);
+            $this->returnJson(['success' => true]);
+        }
+        if ($params['action'] === "track_and_trace_updated") {
+            $order_repo = $entity_manager->getRepository(Order::class);
+            $order = $order_repo->find($order_id);
+            $order->setTrackingCode($params['track_and_trace_code']);
+            $entity_manager->persist($shipment);
+            $entity_manager->flush();
         }
     }
 
