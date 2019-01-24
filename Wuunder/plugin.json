@@ -8,9 +8,10 @@
   "license": "proprietary",
   "link": "http:\/\/www.wearewuunder.com",
   "author": "Wuunder",
-  "currentVersion": "1.2.2",
+  "currentVersion": "1.2.3",
   "changelog": {
     "nl": {
+      "1.2.3": "Added track&trace code",
       "1.2.2": "Fixed check config",
       "1.2.1": "Fixed config",
       "1.2.0": "Fixed wuunder api domain",
@@ -24,6 +25,7 @@
       "1.0.0": "Wuunder module"
     },
     "en": {
+      "1.2.3": "Added track&trace code",
       "1.2.2": "Fixed check config",
       "1.2.1": "Fixed config",
       "1.2.0": "Fixed wuunder api domain",
@@ -37,6 +39,7 @@
       "1.0.0": "Wuunder module"
     },
     "de": {
+      "1.2.3": "Added track&trace code",
       "1.2.2": "Fixed check config",
       "1.2.1": "Fixed config",
       "1.2.0": "Fixed wuunder api domain",
