@@ -11,7 +11,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 {
     use ReturnsJson;
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.2.3", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.2.4", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -81,9 +81,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $customer = $order->getCustomer();
         $address = $customer->getDefaultShippingAddress();
-        $address_parts = explode(' ', $shippingAddress->getStreet());
-        $street_name = trim($address_parts[0]);
-        $house_number = trim($address_parts[1]);
 
         $description = "";
         $orderDetails = $order->getDetails();
@@ -112,10 +109,10 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'email_address' => $customer->getEmail(),
             'family_name' => $shippingAddress->getLastname(),
             'given_name' => $shippingAddress->getFirstname(),
-            'house_number' => $house_number,
+//            'house_number' => $house_number,
             'locality' => $shippingAddress->getCity(),
             'phone_number' => $address->getPhone(),
-            'street_name' => $street_name,
+            'street_name' => $shippingAddress->getStreet(),
             'zip_code' => $shippingAddress->getZipcode(),
         ];
 
