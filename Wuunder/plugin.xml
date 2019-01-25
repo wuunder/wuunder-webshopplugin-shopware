@@ -6,12 +6,17 @@
     <label lang="en">Wuunder shipping module</label>
     <label lang="nl">Wuunder verzendmodule</label>
 
-    <version>1.2.3</version>
+    <version>1.2.4</version>
     <copyright>(c) by Wuunder</copyright>
     <license>proprietary</license>
     <link>http://www.wearewuunder.com</link>
     <author>Wuunder</author>
     <compatibility minVersion="5.3.0"/>
+
+    <changelog version="1.2.4">
+        <changes lang="de">Fixed mix street and housenumber field</changes>
+        <changes lang="en">Fixed mix street and housenumber field</changes>
+    </changelog>
 
     <changelog version="1.2.3">
         <changes lang="de">Added track and trace code</changes>
