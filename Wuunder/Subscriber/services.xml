@@ -1,0 +1,9 @@
+<tag name="shopware.event_subscriber" />
+    <service id="wuunder.subscriber.route" class="Wuunder\Subscriber\RouteSubscriber">
+        <argument>%wuunder.plugin_name%</argument>
+        <argument>%wuunder.plugin_dir%</argument>
+
+        <argument type="service" id="shopware.plugin.cached_config_reader" />
+
+        <tag name="shopware.event_subscriber" />
+    </service>
