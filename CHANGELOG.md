@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [1.2.2](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.2) - 2018-11-19
 
-### Added
+### Fix
 
 - Added config check bugfix [@timoj](https://github.com/timoj)
 
