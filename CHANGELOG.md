@@ -5,7 +5,7 @@ Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` o
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Released
 
-## [1.2.3](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.2) - 2018-11-07
+## [1.2.3](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.3) - 2018-11-07
 
 ### Fix
 
@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Released
 
-## [1.2.2](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.1) - 2018-11-19
+## [1.2.2](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.2) - 2018-11-19
 
 ### Fix
 
