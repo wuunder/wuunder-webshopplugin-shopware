@@ -11,7 +11,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 - Added track and trace code [@Mittows](https://github.com/Mittows)
 
-## Released
 
 ## [1.2.2](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.2) - 2018-11-19
 
@@ -20,8 +19,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Added config check bugfix [@timoj](https://github.com/timoj)
 
 
-## Released
-
 ## [1.2.1](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.1) - 2018-11-07
 
 ### Fix
@@ -29,15 +26,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Fixed config bug [@timoj](https://github.com/timoj)
 
 
-## Released
-
 ## [1.2.0](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.0) - 2018-03-27
 
 ### Fix
 
 - Fix api domain [@timoj](https://github.com/timoj)
 
-## Released
 
 ## [1.1.5](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.1.5) - 2018-03-20
 
@@ -46,7 +40,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Fixed review issue Shopware [@timoj](https://github.com/timoj)
 
 
-## Released
 
 ## [1.1.4](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.1.4) - 2018-03-20
 
