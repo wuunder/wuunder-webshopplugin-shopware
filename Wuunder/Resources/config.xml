@@ -87,6 +87,12 @@
             <label>Wuunder api key</label>
             <value></value>
         </element>
+        <!-- Available Carriers -->
+        <element type="text">
+            <name>available_carriers</name>
+            <label>Available parcelshop carriers</label>
+            <value>dpd,dhl,postnl</value>
+        </element>
         <!-- Filters -->
         <element type="text">
             <name>mapping_1_filter</name>
