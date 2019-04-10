@@ -12,4 +12,4 @@ We make shipping any parcel, pallet and document easy, personal and efficient. A
 * Wuunder is now added to your orders page and is ready for use!
 
 ## Changelog ##
-Changelog can be found [here](https://github.com/kabisa/wuunder-webshopplugin-shopware/blob/master/CHANGELOG.md).
+Changelog can be found [here](CHANGELOG.md).
