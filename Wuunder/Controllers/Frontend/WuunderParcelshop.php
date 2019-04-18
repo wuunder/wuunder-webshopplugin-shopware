@@ -1,13 +1,24 @@
 <?php
 
-class Shopware_Controllers_Frontend_WuunderParcelshop extends \Enlight_Controller_Action
-{
-    public function preDispatch()
-    {
-        $pluginPath = $this->container->getParameter('wuunder.plugin_dir');
-        
-        $this->get('template')->addTemplateDir($pluginPath . '/Resources/views/');
-        $this->get('snippets')->addConfigDir($pluginPath . '/Resources/snippets/');
-    }
 
+namespace Wuunder;
+
+
+use Enlight_Controller_Response_Response;
+use Shopware\Components\CSRFWhitelistAware;
+
+class WuunderParcelshop extends \Enlight_Controller_Action implements CSRFWhitelistAware
+{
+
+
+
+    /**
+     * Returns a list with actions which should not be validated for CSRF protection
+     *
+     * @return string[]
+     */
+    public function getWhitelistedCSRFActions()
+    {
+        return ['index'];
+    }
 }

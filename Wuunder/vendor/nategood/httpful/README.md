@@ -1,8 +1,8 @@
 # Httpful
 
-[![Build Status](https://secure.travis-ci.org/nategood/httpful.png?branch=master)](http://travis-ci.org/nategood/httpful) [![Total Downloads](https://poser.pugx.org/nategood/httpful/downloads.png)](https://packagist.org/packages/nategood/httpful)
+[![Build Status](../../../../../../shopware.php.travis-ci.org/nategood/httpful.png?branch=master)](../../../../../../shopware.phpci.org/nategood/httpful) [![Total Downloads](../../../../../../shopware.phppugx.org/nategood/httpful/downloads.png)](../../../../../../shopware.phpist.org/packages/nategood/httpful)
 
-[Httpful](http://phphttpclient.com) is a simple Http Client library for PHP 5.3+.  There is an emphasis of readability, simplicity, and flexibility – basically provide the features and flexibility to get the job done and make those features really easy to use.
+[Httpful](../../../../../../shopware.phpclient.com) is a simple Http Client library for PHP 5.3+.  There is an emphasis of readability, simplicity, and flexibility – basically provide the features and flexibility to get the job done and make those features really easy to use.
 
 Features
 
@@ -36,7 +36,7 @@ echo "{$response->body->name} joined GitHub on " .
 
 ## Phar
 
-A [PHP Archive](http://php.net/manual/en/book.phar.php) (or .phar) file is available for [downloading](http://phphttpclient.com/httpful.phar).  Simply [download](http://phphttpclient.com/httpful.phar) the .phar, drop it into your project, and include it like you would any other php file.  _This method is ideal for smaller projects, one off scripts, and quick API hacking_.
+A [PHP Archive](../../../../../../shopware.php/manual/en/book.phar.php) (or .phar) file is available for [downloading](../../../../../../shopware.phpclient.com/httpful.phar).  Simply [download](../../../../../../shopware.phpclient.com/httpful.phar) the .phar, drop it into your project, and include it like you would any other php file.  _This method is ideal for smaller projects, one off scripts, and quick API hacking_.
 
 ```php
 include('httpful.phar');
@@ -46,7 +46,7 @@ $r = \Httpful\Request::get($uri)->sendIt();
 
 ## Composer
 
-Httpful is PSR-0 compliant and can be installed using [composer](http://getcomposer.org/).  Simply add `nategood/httpful` to your composer.json file.  _Composer is the sane alternative to PEAR.  It is excellent for managing dependencies in larger projects_.
+Httpful is PSR-0 compliant and can be installed using [composer](../../../../../../shopware.phposer.org/).  Simply add `nategood/httpful` to your composer.json file.  _Composer is the sane alternative to PEAR.  It is excellent for managing dependencies in larger projects_.
 
     {
         "require": {
@@ -56,24 +56,24 @@ Httpful is PSR-0 compliant and can be installed using [composer](http://getcompo
 
 ## Install from Source
 
-Because Httpful is PSR-0 compliant, you can also just clone the Httpful repository and use a PSR-0 compatible autoloader to load the library, like [Symfony's](http://symfony.com/doc/current/components/class_loader.html). Alternatively you can use the PSR-0 compliant autoloader included with the Httpful (simply `require("bootstrap.php")`).
+Because Httpful is PSR-0 compliant, you can also just clone the Httpful repository and use a PSR-0 compatible autoloader to load the library, like [Symfony's](../../../../../../shopware.php.com/doc/current/components/class_loader.html). Alternatively you can use the PSR-0 compliant autoloader included with the Httpful (simply `require("bootstrap.php")`).
 
 ## Build your Phar
 
-If you want the build your own [Phar Archive](http://php.net/manual/en/book.phar.php) you can use the `build` script included.
+If you want the build your own [Phar Archive](../../../../../../shopware.php/manual/en/book.phar.php) you can use the `build` script included.
 Make sure that your `php.ini` has the *Off* or 0 value for the `phar.readonly` setting.
 Also you need to create ad empty `downloads` directory in the project root.
 
 # Show Me More!
 
-You can checkout the [Httpful Landing Page](http://phphttpclient.com) for more info including many examples and  [documentation](http://phphttpclient.com/docs).
+You can checkout the [Httpful Landing Page](../../../../../../shopware.phpclient.com) for more info including many examples and  [documentation](../../../../../../shopware.phpclient.com/docs).
 
 # Contributing
 
 Httpful highly encourages sending in pull requests.  When submitting a pull request please:
 
  - All pull requests should target the `dev` branch (not `master`)
- - Make sure your code follows the [coding conventions](http://pear.php.net/manual/en/standards.php)
+ - Make sure your code follows the [coding conventions](../../../../../../shopware.phpp.net/manual/en/standards.php)
  - Please use soft tabs (four spaces) instead of hard tabs
  - Make sure you add appropriate test coverage for your changes
  - Run all unit tests in the test directory via `phpunit ./tests`
@@ -83,22 +83,22 @@ Httpful highly encourages sending in pull requests.  When submitting a pull requ
 
 ## 0.2.20
 
- - MINOR Move Response building logic into separate function [PR #193](https://github.com/nategood/httpful/pull/193)
+ - MINOR Move Response building logic into separate function [PR #193](../../../../../../shopware.php.com/nategood/httpful/pull/193)
 
 ## 0.2.19
 
- - FEATURE Before send hook [PR #164](https://github.com/nategood/httpful/pull/164)
- - MINOR More descriptive connection exceptions [PR #166](https://github.com/nategood/httpful/pull/166)
+ - FEATURE Before send hook [PR #164](../../../../../../shopware.php.com/nategood/httpful/pull/164)
+ - MINOR More descriptive connection exceptions [PR #166](../../../../../../shopware.php.com/nategood/httpful/pull/166)
 
 ## 0.2.18
 
- - FIX [PR #149](https://github.com/nategood/httpful/pull/149)
- - FIX [PR #150](https://github.com/nategood/httpful/pull/150)
- - FIX [PR #156](https://github.com/nategood/httpful/pull/156)
+ - FIX [PR #149](../../../../../../shopware.php.com/nategood/httpful/pull/149)
+ - FIX [PR #150](../../../../../../shopware.php.com/nategood/httpful/pull/150)
+ - FIX [PR #156](../../../../../../shopware.php.com/nategood/httpful/pull/156)
 
 ## 0.2.17
 
- - FEATURE [PR #144](https://github.com/nategood/httpful/pull/144) Adds additional parameter to the Response class to specify additional meta data about the request/response (e.g. number of redirect).
+ - FEATURE [PR #144](../../../../../../shopware.php.com/nategood/httpful/pull/144) Adds additional parameter to the Response class to specify additional meta data about the request/response (e.g. number of redirect).
 
 ## 0.2.16
 
@@ -106,37 +106,37 @@ Httpful highly encourages sending in pull requests.  When submitting a pull requ
 
 ## 0.2.15
 
- - FEATURE [I #131](https://github.com/nategood/httpful/pull/131) Support for SOCKS proxy
+ - FEATURE [I #131](../../../../../../shopware.php.com/nategood/httpful/pull/131) Support for SOCKS proxy
 
 ## 0.2.14
 
- - FEATURE [I #138](https://github.com/nategood/httpful/pull/138) Added alternative option for XML request construction. In the next major release this will likely supplant the older version.
+ - FEATURE [I #138](../../../../../../shopware.php.com/nategood/httpful/pull/138) Added alternative option for XML request construction. In the next major release this will likely supplant the older version.
 
 ## 0.2.13
 
- - REFACTOR [I #121](https://github.com/nategood/httpful/pull/121) Throw more descriptive exception on curl errors
- - REFACTOR [I #122](https://github.com/nategood/httpful/issues/122) Better proxy scrubbing in Request
- - REFACTOR [I #119](https://github.com/nategood/httpful/issues/119) Better document the mimeType param on Request::body
+ - REFACTOR [I #121](../../../../../../shopware.php.com/nategood/httpful/pull/121) Throw more descriptive exception on curl errors
+ - REFACTOR [I #122](../../../../../../shopware.php.com/nategood/httpful/issues/122) Better proxy scrubbing in Request
+ - REFACTOR [I #119](../../../../../../shopware.php.com/nategood/httpful/issues/119) Better document the mimeType param on Request::body
  - Misc code and test cleanup
 
 ## 0.2.12
 
- - REFACTOR [I #123](https://github.com/nategood/httpful/pull/123) Support new curl file upload method
- - FEATURE [I #118](https://github.com/nategood/httpful/pull/118) 5.4 HTTP Test Server
- - FIX [I #109](https://github.com/nategood/httpful/pull/109) Typo
- - FIX [I #103](https://github.com/nategood/httpful/pull/103)  Handle also CURLOPT_SSL_VERIFYHOST for strictSsl mode
+ - REFACTOR [I #123](../../../../../../shopware.php.com/nategood/httpful/pull/123) Support new curl file upload method
+ - FEATURE [I #118](../../../../../../shopware.php.com/nategood/httpful/pull/118) 5.4 HTTP Test Server
+ - FIX [I #109](../../../../../../shopware.php.com/nategood/httpful/pull/109) Typo
+ - FIX [I #103](../../../../../../shopware.php.com/nategood/httpful/pull/103)  Handle also CURLOPT_SSL_VERIFYHOST for strictSsl mode
 
 ## 0.2.11
 
- - FIX [I #99](https://github.com/nategood/httpful/pull/99) Prevent hanging on HEAD requests
+ - FIX [I #99](../../../../../../shopware.php.com/nategood/httpful/pull/99) Prevent hanging on HEAD requests
 
 ## 0.2.10
 
- - FIX [I #93](https://github.com/nategood/httpful/pull/86) Fixes edge case where content-length would be set incorrectly
+ - FIX [I #93](../../../../../../shopware.php.com/nategood/httpful/pull/86) Fixes edge case where content-length would be set incorrectly
 
 ## 0.2.9
 
- - FEATURE [I #89](https://github.com/nategood/httpful/pull/89) multipart/form-data support (a.k.a. file uploads)! Thanks @dtelaroli!
+ - FEATURE [I #89](../../../../../../shopware.php.com/nategood/httpful/pull/89) multipart/form-data support (a.k.a. file uploads)! Thanks @dtelaroli!
 
 ## 0.2.8
 
@@ -144,25 +144,25 @@ Httpful highly encourages sending in pull requests.  When submitting a pull requ
 
 ## 0.2.7
 
- - FIX [I #86](https://github.com/nategood/httpful/pull/86) Remove Connection Established header when using a proxy
+ - FIX [I #86](../../../../../../shopware.php.com/nategood/httpful/pull/86) Remove Connection Established header when using a proxy
 
 ## 0.2.6
 
- - FIX [I #85](https://github.com/nategood/httpful/issues/85) Empty Content Length issue resolved
+ - FIX [I #85](../../../../../../shopware.php.com/nategood/httpful/issues/85) Empty Content Length issue resolved
 
 ## 0.2.5
 
- - FEATURE [I #80](https://github.com/nategood/httpful/issues/80) [I #81](https://github.com/nategood/httpful/issues/81) Proxy support added with `useProxy` method.
+ - FEATURE [I #80](../../../../../../shopware.php.com/nategood/httpful/issues/80) [I #81](../../../../../../shopware.php.com/nategood/httpful/issues/81) Proxy support added with `useProxy` method.
 
 ## 0.2.4
 
- - FEATURE [I #77](https://github.com/nategood/httpful/issues/77) Convenience method for setting a timeout (seconds) `$req->timeoutIn(10);`
- - FIX [I #75](https://github.com/nategood/httpful/issues/75) [I #78](https://github.com/nategood/httpful/issues/78) Bug with checking if digest auth is being used.
+ - FEATURE [I #77](../../../../../../shopware.php.com/nategood/httpful/issues/77) Convenience method for setting a timeout (seconds) `$req->timeoutIn(10);`
+ - FIX [I #75](../../../../../../shopware.php.com/nategood/httpful/issues/75) [I #78](../../../../../../shopware.php.com/nategood/httpful/issues/78) Bug with checking if digest auth is being used.
 
 ## 0.2.3
 
  - FIX Overriding default Mime Handlers
- - FIX [PR #73](https://github.com/nategood/httpful/pull/73) Parsing http status codes
+ - FIX [PR #73](../../../../../../shopware.php.com/nategood/httpful/pull/73) Parsing http status codes
 
 ## 0.2.2
 
@@ -171,14 +171,14 @@ Httpful highly encourages sending in pull requests.  When submitting a pull requ
 
 ## 0.2.1
 
- - FEATURE [PR #72](https://github.com/nategood/httpful/pull/72) Allow support for custom Accept header
+ - FEATURE [PR #72](../../../../../../shopware.php.com/nategood/httpful/pull/72) Allow support for custom Accept header
 
 ## 0.2.0
 
- - REFACTOR [PR #49](https://github.com/nategood/httpful/pull/49) Broke headers out into their own class
- - REFACTOR [PR #54](https://github.com/nategood/httpful/pull/54) Added more specific Exceptions
- - FIX [PR #58](https://github.com/nategood/httpful/pull/58) Fixes throwing an error on an empty xml response
- - FEATURE [PR #57](https://github.com/nategood/httpful/pull/57) Adds support for digest authentication
+ - REFACTOR [PR #49](../../../../../../shopware.php.com/nategood/httpful/pull/49) Broke headers out into their own class
+ - REFACTOR [PR #54](../../../../../../shopware.php.com/nategood/httpful/pull/54) Added more specific Exceptions
+ - FIX [PR #58](../../../../../../shopware.php.com/nategood/httpful/pull/58) Fixes throwing an error on an empty xml response
+ - FEATURE [PR #57](../../../../../../shopware.php.com/nategood/httpful/pull/57) Adds support for digest authentication
 
 ## 0.1.6
 
@@ -188,8 +188,8 @@ Httpful highly encourages sending in pull requests.  When submitting a pull requ
 
 ## 0.1.5
 
- - Use `DIRECTORY_SEPARATOR` constant [PR #33](https://github.com/nategood/httpful/pull/32)
- - [PR #35](https://github.com/nategood/httpful/pull/35)
+ - Use `DIRECTORY_SEPARATOR` constant [PR #33](../../../../../../shopware.php.com/nategood/httpful/pull/32)
+ - [PR #35](../../../../../../shopware.php.com/nategood/httpful/pull/35)
  - Added the raw\_headers property reference to response.
  - Compose request header and added raw\_header to Request object.
  - Fixed response has errors and added more comments for clarity.
@@ -203,7 +203,7 @@ Httpful highly encourages sending in pull requests.  When submitting a pull requ
 
 ## 0.1.4
 
- - Add support for CSV Handling [PR #32](https://github.com/nategood/httpful/pull/32)
+ - Add support for CSV Handling [PR #32](../../../../../../shopware.php.com/nategood/httpful/pull/32)
 
 ## 0.1.3
 

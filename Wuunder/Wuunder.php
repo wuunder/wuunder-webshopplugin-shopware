@@ -20,7 +20,7 @@ class Wuunder extends Plugin
         return [
             'Enlight_Controller_Front_StartDispatch' => 'onStartDispatch',
             'Enlight_Controller_Action_PostDispatchSecure_Backend_Order' => 'onPostDispatch',
-            'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'onPostDispatchBackendIndex'
+            'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'onPostDispatchBackendIndex',
         ];
     }
 
