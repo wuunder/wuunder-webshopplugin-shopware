@@ -6,7 +6,7 @@ We make shipping any parcel, pallet and document easy, personal and efficient. A
 ## Before you start ##
 * You need to create a free Wuunder account: https://app.wearewuunder.com and request an API-key to use the module: https://wearewuunder.com/en/contact/ 
 * You can download and install the module before you sign-up.
-* With this module you connect your Magento store to your Wuunder account.
+* With this module you connect your Shopware store to your Wuunder account.
 
 ## Install ##
 * Download the .zip file from this repository and unpack.
