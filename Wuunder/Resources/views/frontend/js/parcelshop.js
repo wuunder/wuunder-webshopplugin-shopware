@@ -1,7 +1,5 @@
 // Get the modal
-//get this value from back end somehow
 var parcelshopShippingMethodElem = document.getElementById('confirm_dispatch18');
-
 var shippingAddress;
 var parcelshopAddress;
 
@@ -45,12 +43,10 @@ function _printParcelshopAddress() {
 
 
 function _showParcelshopLocator() {
-    var address = "";
-
-    jQuery.post( baseUrl + "admin-ajax.php", {action: 'wuunder_parcelshoplocator_get_address', address: address}, function( data ) {
-        shippingAddress = data;
-        _openIframe();
-    });
+    jQuery.post(baseUrl + "/frontend/wuunder_parcelshop/address", function( data ) {
+            shippingAddress = data;
+            _openIframe();
+        });
 }
 
 
@@ -98,7 +94,7 @@ function _openIframe() {
 }
 
 function _loadSelectedParcelshopAddress(id) {
-    jQuery.post( baseUrl + "admin-ajax.php", {action: 'wuunder_parcelshoplocator_get_parcelshop_address', parcelshop_id: id}, function( data ) {
+    jQuery.post( baseUrl + '/parcelshopdata', {parcelshop_id: id}, function( data ) {
         data = JSON.parse(data);
         var parcelshopInfoHtml = _capFirst(data.company_name) + "<br>" + _capFirst(data.address.street_name) +
             " " + data.address.house_number + "<br>" + data.address.city;

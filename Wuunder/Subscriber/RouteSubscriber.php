@@ -29,17 +29,12 @@ class RouteSubscriber implements SubscriberInterface
             ->get('shopware.plugin.config_reader')
             ->getByPluginName('Wuunder');
 
-
-
-
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
         $view = $controller->View();
         $base_url = $config['base_url'];
         $apiUrl = intval($config['testmode']) === 1 ? 'https://api-staging.wearewuunder.com/' : 'https://api.wearewuunder.com/';
-        $view->assign('baseSiteUrl', $base_url);
         $view->assign('apiBaseUrl', $apiUrl);
-        $view->assign('availableCarrierList', $config['available_carriers']);
         $view->addTemplateDir($this->pluginDirectory . '/Resources/views');
     }
 }

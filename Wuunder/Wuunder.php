@@ -12,6 +12,8 @@ use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
 use Shopware\Components\Plugin\Context\UpdateContext;
 use Wuunder\Models\WuunderShipment;
+use Wuunder\Models\WuunderParcelshop;
+
 
 class Wuunder extends Plugin
 {
@@ -86,6 +88,7 @@ class Wuunder extends Plugin
         /** @var EntityManager $models */
         $models = $this->container->get('models');
         $meta_data[] = $models->getClassMetadata(WuunderShipment::class);
+        $meta_data[] = $models->getClassMetadata(WuunderParcelshop::class);
         $schema_tool = new SchemaTool($models);
 
         //Drop schema
@@ -119,6 +122,7 @@ class Wuunder extends Plugin
         /** @var EntityManager $models */
         $models = $this->container->get('models');
         $meta_data[] = $models->getClassMetadata(WuunderShipment::class);
+        $meta_data[] = $models->getClassMetadata(WuunderParcelshop::class);
         $schema_tool = new SchemaTool($models);
 
         //Drop schema

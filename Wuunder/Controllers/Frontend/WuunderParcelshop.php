@@ -1,24 +1,28 @@
 <?php
 
 
-namespace Wuunder;
-
-
-use Enlight_Controller_Response_Response;
-use Shopware\Components\CSRFWhitelistAware;
-
-class WuunderParcelshop extends \Enlight_Controller_Action implements CSRFWhitelistAware
+class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller_Action
 {
-
-
+    /**
+     * @var sAdmin
+     */
+    protected $admin;
 
     /**
-     * Returns a list with actions which should not be validated for CSRF protection
-     *
-     * @return string[]
+     * Init controller method
      */
-    public function getWhitelistedCSRFActions()
+    public function init()
     {
-        return ['index'];
+        $this->admin = Shopware()->Modules()->Admin();
+    }
+
+    public function addressAction()
+    {
+        if(!empty($this->container->get('session')->get('sUserId'))) {
+            //get user data
+            $userData = $this->admin->sGetUserData();
+            //Parcelshop locator shipping address
+            die(json_encode(urlencode($userData['shippingaddress']['street'] . ' ' . $userData['shippingaddress']['zipcode'] . ' ' . $userData['shippingaddress']['city'] . ' ' . $userData['countryShipping']['iso3'])));
+        }
     }
 }
