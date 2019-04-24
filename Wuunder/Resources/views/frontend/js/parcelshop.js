@@ -44,14 +44,15 @@ function _printParcelshopAddress() {
 
 function _showParcelshopLocator() {
     jQuery.post(baseUrl + "/frontend/wuunder_parcelshop/address", function( data ) {
-            shippingAddress = data;
-            _openIframe();
+            data = JSON.parse(data);
+            shippingAddress = data[0].addressInfo;
+            _openIframe(data[0].apiUrl, data[0].availableCarriers);
         });
 }
 
 
-function _openIframe() {
-    var iframeUrl = baseUrlApi + 'parcelshop_locator/iframe/?lang=nl&availableCarriers=' + availableCarrierList + '&address=' + encodeURI(shippingAddress);
+function _openIframe(baseUrlApi, availableCarrierList) {
+    var iframeUrl = baseUrlApi + 'parcelshop_locator/iframe/?lang=nl&availableCarriers=' + availableCarrierList + '&address=' + shippingAddress;
     var iframeContainer = document.createElement('div');
     iframeContainer.className = "parcelshopPickerIframeContainer";
     var iframeDiv = document.createElement('div');
@@ -66,7 +67,6 @@ function _openIframe() {
     }
 
     function onServicePointSelected(messageData) {
-        window.parent.document.getElementById('parcelshop_id').value = messageData.parcelshopId;
         _loadSelectedParcelshopAddress(messageData.parcelshopId);
         removeServicePointPicker();
     }
@@ -94,7 +94,7 @@ function _openIframe() {
 }
 
 function _loadSelectedParcelshopAddress(id) {
-    jQuery.post( baseUrl + '/parcelshopdata', {parcelshop_id: id}, function( data ) {
+    jQuery.post( baseUrl + '/frontend/wuunder_parcelshop/parcelshop_info', {parcelshop_id: id}, function( data ) {
         data = JSON.parse(data);
         var parcelshopInfoHtml = _capFirst(data.company_name) + "<br>" + _capFirst(data.address.street_name) +
             " " + data.address.house_number + "<br>" + data.address.city;
