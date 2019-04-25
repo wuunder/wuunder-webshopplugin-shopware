@@ -34,6 +34,11 @@ class Wuunder extends Plugin
         require_once $this->getPath() . '/vendor/autoload.php';
     }
 
+    public function registerMyComponents()
+    {
+        require_once $this->Path() . '/vendor/autoload.php';
+    }
+
     public function onPostDispatchBackendIndex(Enlight_Event_EventArgs $args)
     {
         /** @var \Enlight_Controller_Action $controller */

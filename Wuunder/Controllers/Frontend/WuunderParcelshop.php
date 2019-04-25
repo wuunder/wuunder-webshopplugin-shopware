@@ -1,6 +1,5 @@
 <?php
 
-
 class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller_Action
 {
     /**
@@ -45,8 +44,33 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
         $config = $this->getConfig();
         $parcelshop_id = $this->Request()->getParam('parcelshop_id');
         $apiKey = $config['api_key'];
+        //Fetch and return Parcelshop address info
+        die(json_encode($this->getParcelshopAddress($parcelshop_id, $apiKey)));
+    }
 
+    function getParcelshopAddress($id, $apiKey) {
+        $shipping_address = null;
+        if(!$id) {
+            echo null;
+        } else {
+            $connector = new Wuunder\Connector($apiKey);
+            $connector->setLanguage("NL");
+            $parcelshopRequest = $connector->getParcelshopById();
+            $parcelshopConfig = new \Wuunder\Api\Config\ParcelshopConfig();
+            $parcelshopConfig->setId($_POST['parcelshop_id']);
 
-
+            if ($parcelshopConfig->validate()) {
+                $parcelshopRequest->setConfig($parcelshopConfig);
+                if ($parcelshopRequest->fire()) {
+                    $parcelshop = $parcelshopRequest->getParcelshopResponse()->getParcelshopData();
+                } else {
+                    var_dump($parcelshopRequest->getParcelshopResponse()->getError());
+                }
+            } else {
+                $parcelshop = "ParcelshopsConfig not complete";
+            }
+           return($parcelshop);
+        }
+        exit;
     }
 }
