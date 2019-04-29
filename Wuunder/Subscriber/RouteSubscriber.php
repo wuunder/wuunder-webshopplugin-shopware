@@ -3,6 +3,8 @@ namespace Wuunder\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 use Shopware\Components\Plugin\ConfigReader;
+use Wuunder\Models\WuunderParcelshop;
+use Shopware\Models\Order\Order;
 
 class RouteSubscriber implements SubscriberInterface
 {
@@ -11,8 +13,8 @@ class RouteSubscriber implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            //'Enlight_Controller_Action_PostDispatch_Frontend_Checkout' => 'onCheckout',
-            'Enlight_Controller_Action_PostDispatch_Frontend' => 'onCheckout',
+            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Checkout' => 'onCheckout',
+            'Shopware_Modules_Order_SendMail_FilterVariables' => 'onOrdermail',
         ];
     }
 
@@ -26,7 +28,27 @@ class RouteSubscriber implements SubscriberInterface
     {
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
-        $view = $controller->View();
-        $view->addTemplateDir($this->pluginDirectory . '/Resources/views');
+        $request  = $controller->Request();
+        $action = $request->getActionName();
+        if ($action === 'shippingPayment') {
+            $view = $controller->View();
+            $view->addTemplateDir($this->pluginDirectory . '/Resources/views');
+        }
+    }
+
+    public function onOrdermail(\Enlight_Event_EventArgs $args)
+    {
+        $variables = $args->getReturn();
+        $sql = 'UPDATE wuunder_parcelshop SET order_id = ' . $variables['sOrderDetails'][0]['id'] . ' WHERE user_id = ' . $variables['sOrderDetails'][0]['userID'] . ' AND order_id IS NULL ORDER BY id DESC LIMIT 1;';
+        Shopware()->Db()->executeQuery($sql);
+    }
+
+    /**
+     * returns shopware model manager
+     * @return Ambigous <\Shopware\Components\Model\ModelManager, mixed, multitype:>
+     */
+    public function getEntityManager()
+    {
+        return Shopware()->Models();
     }
 }

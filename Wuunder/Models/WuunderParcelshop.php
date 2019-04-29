@@ -18,14 +18,19 @@ class WuunderParcelshop extends  ModelEntity
     private $id;
 
     /**
-     * @ORM\Column(name="order_id", type="integer", nullable=false)
+     * @ORM\Column(name="order_id", type="integer", nullable=true)
      */
     private $order_id;
 
     /**
-     * @ORM\Column(name="parcelshop_id", type="text", nullable=true)
+     * @ORM\Column(name="parcelshop_id", type="text", nullable=false)
      */
     private $parcelshop_id;
+
+    /**
+     * @ORM\Column(name="user_id", type="text", nullable=true)
+     */
+    private $user_id;
 
     public function setOrderId($order_id)
     {
@@ -50,6 +55,23 @@ class WuunderParcelshop extends  ModelEntity
     public function getParcelshopId()
     {
         return $this->parcelshop_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+        return $this;
     }
 
 
