@@ -6,6 +6,10 @@ use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Order\Order;
 use Wuunder\Controllers\Traits\ReturnsJson;
 use Wuunder\Models\WuunderShipment;
+use Wuunder\Models\WuunderParcelshop;
+use Doctrine\ORM\EntityManager;
+use Shopware\Components\Model\ModelManager;
+
 
 class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
@@ -39,7 +43,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             ->addHeaders($headers)
             ->sendsAndExpects(Mime::JSON)
             ->send();
-
         $redirect = $res->headers->toArray()['location'];
 
         $entity_manager = $this->get('models');
@@ -101,6 +104,14 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
                 break;
             }
         }
+        /** @var EntityManager $em */
+        $em = Shopware()->Container()->get('models');
+        $parcelshop_repo = $em->getRepository(WuunderParcelshop::class);
+        $orderNumber = $order->getNumber();
+        $parcelshopData = $parcelshop_repo->findBy(['order_number' => $orderNumber]);
+        if ($parcelshopData) {
+            $parcelshopId = $parcelshopData[0]->getParcelshopId();
+        }
 
         $delivery_address = [
             'business' => $shippingAddress->getCompany(),
@@ -122,7 +133,8 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'customer_reference' => $order->getNumber(),
             'description' => $description,
             'preferred_service_level' => $preferredServiceLevel,
-            'source' => self::$WUUNDER_PLUGIN_VERSION
+            'source' => self::$WUUNDER_PLUGIN_VERSION,
+            'parcelshop_id' => isset($parcelshopId) ? $parcelshopId : null
         ];
 
         return $body;

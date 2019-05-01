@@ -62,8 +62,8 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
         $parcelshopData = $db->fetchAll($sql);
         //if user has selected a parcelshop before, overwrite it in the DB, else save new parcelshop
 
-        if($parcelshopData && $parcelshopData[0]['order_id'] === NULL) {
-            $sql = 'UPDATE wuunder_parcelshop SET parcelshop_id = "' . $id . '" WHERE user_id = ' . $userId . ' AND  order_id IS NULL ORDER BY id DESC LIMIT 1';
+        if($parcelshopData && $parcelshopData[0]['order_number'] === NULL) {
+            $sql = 'UPDATE wuunder_parcelshop SET parcelshop_id = "' . $id . '" WHERE user_id = ' . $userId . ' AND  order_number IS NULL ORDER BY id DESC LIMIT 1';
             Shopware()->Db()->executeQuery($sql);
         } else {
             $parcelshop = new WuunderParcelshop();
@@ -76,7 +76,7 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
 
     function parcelshopCheckAction() {
         $userId = $this->container->get('session')->get('sUserId');
-        $sql = 'SELECT * FROM wuunder_parcelshop WHERE user_id = ' . $userId. ' AND order_id IS NULL ORDER BY id DESC LIMIT 1';
+        $sql = 'SELECT * FROM wuunder_parcelshop WHERE user_id = ' . $userId. ' AND order_number IS NULL ORDER BY id DESC LIMIT 1';
         $db = $this->container->get('dbal_connection');
         $parcelshopData = $db->fetchAll($sql);
         die(json_encode($parcelshopData[0]['parcelshop_id']));

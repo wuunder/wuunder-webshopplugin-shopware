@@ -3,7 +3,6 @@ namespace Wuunder\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 use Shopware\Components\Plugin\ConfigReader;
-use Wuunder\Models\WuunderParcelshop;
 use Shopware\Models\Order\Order;
 
 class RouteSubscriber implements SubscriberInterface
@@ -39,7 +38,7 @@ class RouteSubscriber implements SubscriberInterface
     public function onOrdermail(\Enlight_Event_EventArgs $args)
     {
         $variables = $args->getReturn();
-        $sql = 'UPDATE wuunder_parcelshop SET order_id = ' . $variables['sOrderDetails'][0]['id'] . ' WHERE user_id = ' . $variables['sOrderDetails'][0]['userID'] . ' AND order_id IS NULL ORDER BY id DESC LIMIT 1;';
+        $sql = 'UPDATE wuunder_parcelshop SET order_number = ' . $variables['ordernumber'] . ' WHERE user_id = ' . $variables['sOrderDetails'][0]['userID'] . ' AND order_number IS NULL ORDER BY id DESC LIMIT 1;';
         Shopware()->Db()->executeQuery($sql);
     }
 

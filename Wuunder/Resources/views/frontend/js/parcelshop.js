@@ -11,13 +11,15 @@ var save = true;
 function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
 r(function(){
     initParcelshopLocator();
-    $('body > div.page-wrap > section > div > div > div > div > div.table--actions.actions--bottom > div > button').on('click', checkParcelshopSelection);
     $('body > div.page-wrap > section > div > div > div > div > div.confirm--actions.table--actions.block.actions--bottom > button').on('click', checkParcelshopSelection);
     jQuery.subscribe('plugin/swShippingPayment/onInputChanged', initParcelshopLocator);
 });
 
 function checkParcelshopSelection(event) {
     selected = $('#checked').value;
+    if ($('#parcelshopInfo') && parcelshopShippingMethodElem.checked) {
+        selected = true;
+    }
     if (!selected) {
         event.preventDefault();
         alert('select a parcelshop');
