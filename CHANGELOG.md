@@ -1,4 +1,64 @@
+
 # Change Log
+All notable changes to this project will be documented in this file.
+Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` or `Security`.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/).
+## Unreleased
+
+## 2019-05-06
+
+### Added
+
+- Added parcelshop locator [@timoj](https://github.com/timoj)
+- Added config for dispatch selection for locator [@timoj](https://github.com/timoj)
+- Added config for en-/disabling the locator [@timoj](https://github.com/timoj)
+- Added checkout validation for the locator [@timoj](https://github.com/timoj)
+
+## Released
+
+## [1.2.3](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.3) - 2018-11-07
+
+### Added
+
+- Added track and trace code [@Mittows](https://github.com/Mittows)
+
+
+## [1.2.2](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.2) - 2018-11-19
+
+### Fix
+
+- Added config check bugfix [@timoj](https://github.com/timoj)
+
+
+## [1.2.1](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.1) - 2018-11-07
+
+### Fix
+
+- Fixed config bug [@timoj](https://github.com/timoj)
+
+
+## [1.2.0](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.0) - 2018-03-27
+
+### Fix
+
+- Fix api domain [@timoj](https://github.com/timoj)
+
+
+## [1.1.5](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.1.5) - 2018-03-20
+
+### Fix
+
+- Fixed review issue Shopware [@timoj](https://github.com/timoj)
+
+
+
+## [1.1.4](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.1.4) - 2018-03-20
+
+### Fix
+
+- Fixed folder structure plugin [@timoj](https://github.com/timoj)
+
 
 ## [1.1.3](https://github.com/kabisa/wuunder-webshopplugin-shopware/tree/1.1.3) (2017-12-07)
 [Full Changelog](https://github.com/kabisa/wuunder-webshopplugin-shopware/compare/1.1.2...1.1.3)
