@@ -1,7 +1,9 @@
 <?php
+
 namespace Wuunder\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
+use Enlight_Template_Manager;
 use Shopware\Components\Plugin\ConfigReader;
 use Shopware\Models\Order\Order;
 
@@ -12,8 +14,10 @@ class RouteSubscriber implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
+            'sBasket::sGetBasket::after' => 'storeBasketResultToSession',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend_Checkout' => 'onCheckout',
-            'Shopware_Modules_Order_SendMail_FilterVariables' => 'onOrdermail',
+            'Enlight_Controller_Action_PreDispatch_Frontend_Checkout' => 'onSaveShipping',
+            'Shopware_Controllers_Frontend_Checkout::finishAction::replace' => 'onCheckoutFinish'
         ];
     }
 
@@ -27,7 +31,7 @@ class RouteSubscriber implements SubscriberInterface
     {
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
-        $request  = $controller->Request();
+        $request = $controller->Request();
         $action = $request->getActionName();
         if ($action === 'shippingPayment') {
             $view = $controller->View();
@@ -35,11 +39,72 @@ class RouteSubscriber implements SubscriberInterface
         }
     }
 
-    public function onOrdermail(\Enlight_Event_EventArgs $args)
+    public function onSaveShipping(\Enlight_Controller_ActionEventArgs $args)
     {
-        $variables = $args->getReturn();
-        $sql = 'UPDATE wuunder_parcelshop SET order_number = ' . $variables['ordernumber'] . ' WHERE user_id = ' . $variables['sOrderDetails'][0]['userID'] . ' AND order_number IS NULL ORDER BY id DESC LIMIT 1;';
-        Shopware()->Db()->executeQuery($sql);
+        /** @var \Enlight_Controller_Action $controller */
+        $controller = $args->get('subject');
+        $request = $controller->Request();
+        $action = $request->getActionName();
+        if (($action === 'saveShippingPayment' && !$controller->Request()->getParam('isXHR'))) {
+            $dispatch = $controller->Request()->getPost('sDispatch');
+            $ourDispatch = 18; //TODO Make Dynamic
+
+            $basket = Shopware()->Session()->connectGetBasket;
+            $basketId = $basket['content'][0]['id'];
+
+            $entityManager = $this->getEntityManager();
+            $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+            $basket = $basket_repo->find($basketId);
+
+            $attribute = $basket->getAttribute();
+            $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+
+            if ($dispatch == $ourDispatch && empty($parcelshopId)) {
+                $sErrorFlag['sDispatch'] = true;
+                $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+                return $controller->forward('shippingPayment');
+            }
+        }
+    }
+
+    public function onCheckoutFinish(\Enlight_Event_EventArgs $args)
+    {
+        /** @var \Enlight_Controller_Action $controller */
+        $controller = $args->getSubject();
+        $request = $controller->Request();
+
+        $action = $request->getActionName();
+        if ($action === 'finish') {
+            $dispatch = Shopware()->Session()['sDispatch'];
+            $ourDispatch = 18; //TODO Make Dynamic
+
+            $basket = Shopware()->Session()->connectGetBasket;
+            $basketId = $basket['content'][0]['id'];
+
+            $entityManager = $this->getEntityManager();
+            $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+            $basket = $basket_repo->find($basketId);
+
+            $attribute = $basket->getAttribute();
+            $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+
+            if ($dispatch == $ourDispatch && empty($parcelshopId)) {
+                $sErrorFlag['sDispatch'] = true;
+                $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+
+                return $controller->redirect([
+                    'controller' => 'checkout',
+                    'action' => 'shippingPayment',
+                ]);
+            } else {
+                $args->setReturn(
+                    $args->getSubject()->executeParent(
+                        $args->getMethod(),
+                        $args->getArgs()
+                    )
+                );
+            }
+        }
     }
 
     /**
@@ -49,5 +114,18 @@ class RouteSubscriber implements SubscriberInterface
     public function getEntityManager()
     {
         return Shopware()->Models();
+    }
+
+    /**
+     * Hook for the sGetBasket method, which will store the most recent basket to the session
+     *
+     * @event sBasket::sGetBasket::after
+     * @param \Enlight_Hook_HookArgs $args
+     */
+    public function storeBasketResultToSession(\Enlight_Hook_HookArgs $args)
+    {
+        $basket = $args->getReturn();
+        Shopware()->Session()->connectGetBasket = $basket;
+        $args->setReturn($basket);
     }
 }

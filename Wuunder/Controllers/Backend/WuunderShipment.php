@@ -4,6 +4,7 @@ use Httpful\Request;
 use Httpful\Mime;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Order\Order;
+use Shopware\Models\Order\Detail;
 use Wuunder\Controllers\Traits\ReturnsJson;
 use Wuunder\Models\WuunderShipment;
 use Wuunder\Models\WuunderParcelshop;
@@ -104,14 +105,10 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
                 break;
             }
         }
-        /** @var EntityManager $em */
-        $em = Shopware()->Container()->get('models');
-        $parcelshop_repo = $em->getRepository(WuunderParcelshop::class);
-        $orderNumber = $order->getNumber();
-        $parcelshopData = $parcelshop_repo->findBy(['order_number' => $orderNumber]);
-        if ($parcelshopData) {
-            $parcelshopId = $parcelshopData[0]->getParcelshopId();
-        }
+
+        $order_detail_repo = Shopware()->Models()->getRepository(Detail::class);
+        $detail = $order_detail_repo->findOneBy(['orderId' => $order_id]);
+        $parcelshopId = $detail->getAttribute()->getWuunderconnectorWuunderParcelshopId();
 
         $delivery_address = [
             'business' => $shippingAddress->getCompany(),

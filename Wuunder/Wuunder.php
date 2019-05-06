@@ -12,7 +12,6 @@ use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
 use Shopware\Components\Plugin\Context\UpdateContext;
 use Wuunder\Models\WuunderShipment;
-use Wuunder\Models\WuunderParcelshop;
 
 
 class Wuunder extends Plugin
@@ -93,7 +92,6 @@ class Wuunder extends Plugin
         /** @var EntityManager $models */
         $models = $this->container->get('models');
         $meta_data[] = $models->getClassMetadata(WuunderShipment::class);
-        $meta_data[] = $models->getClassMetadata(WuunderParcelshop::class);
         $schema_tool = new SchemaTool($models);
 
         //Drop schema
@@ -103,7 +101,61 @@ class Wuunder extends Plugin
         }
 
         $schema_tool->createSchema($meta_data);
+
+        $this->installAttributes();
     }
+
+    /**
+     * install new basket/order attributes
+     * @return multitype:boolean multitype:string
+     */
+    public function installAttributes()
+    {
+        Shopware()->Models()->addAttribute(
+            's_order_basket_attributes',
+            'wuunderconnector',
+            'wuunder_parcelshop_id',
+            'VARCHAR(255)',
+            true,
+            null);
+        Shopware()->Models()->addAttribute(
+            's_order_details_attributes',
+            'wuunderconnector',
+            'wuunder_parcelshop_id',
+            'VARCHAR(255)',
+            true,
+            null);
+
+        $metaDataCacheDoctrine = Shopware()->Models()->getConfiguration()->getMetadataCacheImpl();
+        $metaDataCacheDoctrine->deleteAll();
+
+        Shopware()->Models()->generateAttributeModels(array('s_order_basket_attributes'));
+        Shopware()->Models()->generateAttributeModels(array('s_order_details_attributes'));
+    }
+
+
+    /**
+     * uninstall new basket/order attributes
+     * @return multitype:boolean multitype:string
+     */
+    public function uninstallAttributes()
+    {
+        Shopware()->Models()->removeAttribute(
+            's_order_basket_attributes',
+            'wuunderconnector',
+            'wuunder_parcelshop_id');
+        Shopware()->Models()->addAttribute(
+            's_order_details_attributes',
+            'wuunderconnector',
+            'wuunder_parcelshop_id');
+
+        $metaDataCacheDoctrine = Shopware()->Models()->getConfiguration()->getMetadataCacheImpl();
+        $metaDataCacheDoctrine->deleteAll();
+
+        Shopware()->Models()->generateAttributeModels(array('s_order_basket_attributes'));
+        Shopware()->Models()->generateAttributeModels(array('s_order_details_attributes'));
+    }
+
 
     public function activate(ActivateContext $context)
     {
@@ -122,17 +174,21 @@ class Wuunder extends Plugin
 
     function uninstall(UninstallContext $context)
     {
-        parent::install($context);
+        parent::uninstall($context);
         //Setup models in schema
         /** @var EntityManager $models */
         $models = $this->container->get('models');
         $meta_data[] = $models->getClassMetadata(WuunderShipment::class);
-        $meta_data[] = $models->getClassMetadata(WuunderParcelshop::class);
         $schema_tool = new SchemaTool($models);
 
         //Drop schema
         try {
             $schema_tool->dropSchema($meta_data);
+        } catch (\Exception $e) { /* Ignore Exception*/
+        }
+
+        try {
+            $this->uninstallAttributes();
         } catch (\Exception $e) { /* Ignore Exception*/
         }
     }

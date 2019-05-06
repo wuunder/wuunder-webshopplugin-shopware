@@ -22,14 +22,14 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
 
     private function getConfig()
     {
-        return($config = Shopware()->Container()
+        return ($config = Shopware()->Container()
             ->get('shopware.plugin.config_reader')
             ->getByPluginName('Wuunder'));
     }
 
     public function addressAction()
     {
-        if(!empty($this->container->get('session')->get('sUserId'))) {
+        if (!empty($this->container->get('session')->get('sUserId'))) {
             $config = $this->getConfig();
             //get user data
             $userData = $this->admin->sGetUserData();
@@ -54,38 +54,43 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
         die(json_encode($this->getParcelshopAddress($parcelshop_id, $apiKey)));
     }
 
-    private function saveParcelshopId($id) {
+    private function saveParcelshopId($id)
+    {
+
+        $basket = Shopware()->Session()->connectGetBasket;
+        $basketId = $basket['content'][0]['id'];
+
         $entityManager = $this->getEntityManager();
-        $userId = $this->container->get('session')->get('sUserId');
-        $db = $this->container->get('dbal_connection');
-        $sql = 'SELECT * FROM wuunder_parcelshop WHERE user_id = ' . $userId. ' ORDER BY id DESC LIMIT 1';
-        $parcelshopData = $db->fetchAll($sql);
-        //if user has selected a parcelshop before, overwrite it in the DB, else save new parcelshop
+        $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+        $basket = $basket_repo->find($basketId);
 
-        if($parcelshopData && $parcelshopData[0]['order_number'] === NULL) {
-            $sql = 'UPDATE wuunder_parcelshop SET parcelshop_id = "' . $id . '" WHERE user_id = ' . $userId . ' AND  order_number IS NULL ORDER BY id DESC LIMIT 1';
-            Shopware()->Db()->executeQuery($sql);
-        } else {
-            $parcelshop = new WuunderParcelshop();
-            $parcelshop->setParcelshopId($id);
-            $parcelshop->setUserId($userId);
-            $entityManager->persist($parcelshop);
-            $entityManager->flush();
-        }
+        $attribute = $basket->getAttribute();
+        $attribute->setWuunderconnectorWuunderParcelshopId($id);
+
+        $basket->setAttribute($attribute);
+        $entityManager->persist($basket);
+        $entityManager->flush();
     }
 
-    function parcelshopCheckAction() {
-        $userId = $this->container->get('session')->get('sUserId');
-        $sql = 'SELECT * FROM wuunder_parcelshop WHERE user_id = ' . $userId. ' AND order_number IS NULL ORDER BY id DESC LIMIT 1';
-        $db = $this->container->get('dbal_connection');
-        $parcelshopData = $db->fetchAll($sql);
-        die(json_encode($parcelshopData[0]['parcelshop_id']));
+    function parcelshopCheckAction()
+    {
+        $basket = Shopware()->Session()->connectGetBasket;
+        $basketId = $basket['content'][0]['id'];
+
+        $entityManager = $this->getEntityManager();
+        $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+        $basket = $basket_repo->find($basketId);
+
+        $attribute = $basket->getAttribute();
+        $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+        die(json_encode($parcelshopId));
     }
 
 
-    function getParcelshopAddress($id, $apiKey) {
+    function getParcelshopAddress($id, $apiKey)
+    {
         $shipping_address = null;
-        if(!$id) {
+        if (!$id) {
             echo 'empty id???';
         } else {
             $connector = new Wuunder\Connector($apiKey);
@@ -104,7 +109,7 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
             } else {
                 $parcelshop = "ParcelshopsConfig not complete";
             }
-           return($parcelshop);
+            return ($parcelshop);
         }
         exit;
     }
