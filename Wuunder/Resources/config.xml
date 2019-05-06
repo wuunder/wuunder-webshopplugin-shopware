@@ -66,6 +66,22 @@
             <label>Shipping method for parcelshop locator</label>
             <store>Shopware.apps.Base.store.Dispatch</store>
         </element>
+        <element type="select">
+            <name>parcelshop_method_enabled</name>
+            <label>Enable parcelshop method</label>
+            <store>
+                <option>
+                    <value>1</value>
+                    <label lang="de">Ja</label>
+                    <label lang="en">Yes</label>
+                </option>
+                <option>
+                    <value>0</value>
+                    <label lang="de">Nein</label>
+                    <label lang="en">No</label>
+                </option>
+            </store>
+        </element>
         <element type="text">
             <name>base_url</name>
             <label>Root url of the shopware installation</label>

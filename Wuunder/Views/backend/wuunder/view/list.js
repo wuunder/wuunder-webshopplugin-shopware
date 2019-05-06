@@ -30,6 +30,7 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
             tooltip: 'Ship with Wuunder',
             dataIndex: 'wuunderShipmentData',
             getClass: function (value, meta, record, rowIndex, colIndex, store) {
+                console.log(record);
                 var data = JSON.parse(record.data.wuunderShipmentData);
                 if (data !== null) {
                     if (data.id !== "" && data.id !== null) {

@@ -31,11 +31,17 @@ class RouteSubscriber implements SubscriberInterface
     {
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
-        $request = $controller->Request();
-        $action = $request->getActionName();
-        if ($action === 'shippingPayment') {
-            $view = $controller->View();
-            $view->addTemplateDir($this->pluginDirectory . '/Resources/views');
+        $config = $controller
+            ->get('shopware.plugin.config_reader')
+            ->getByPluginName('Wuunder');
+
+        if ((int)$config['parcelshop_method_enabled']) {
+            $request = $controller->Request();
+            $action = $request->getActionName();
+            if ($action === 'shippingPayment') {
+                $view = $controller->View();
+                $view->addTemplateDir($this->pluginDirectory . '/Resources/views');
+            }
         }
     }
 
@@ -43,29 +49,35 @@ class RouteSubscriber implements SubscriberInterface
     {
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
-        $request = $controller->Request();
-        $action = $request->getActionName();
-        if (($action === 'saveShippingPayment' && !$controller->Request()->getParam('isXHR'))) {
-            $dispatch = $controller->Request()->getPost('sDispatch');
-            $config = $this->container
-                ->get('shopware.plugin.config_reader')
-                ->getByPluginName('Wuunder');
-            $ourDispatch = (int)$config['parcelshop_method']; //TODO Make Dynamic
+        $config = $controller
+            ->get('shopware.plugin.config_reader')
+            ->getByPluginName('Wuunder');
 
-            $basket = Shopware()->Session()->connectGetBasket;
-            $basketId = $basket['content'][0]['id'];
+        if ((int)$config['parcelshop_method_enabled']) {
+            $request = $controller->Request();
+            $action = $request->getActionName();
+            if (($action === 'saveShippingPayment' && !$controller->Request()->getParam('isXHR'))) {
+                $dispatch = $controller->Request()->getPost('sDispatch');
+                $config = $controller
+                    ->get('shopware.plugin.config_reader')
+                    ->getByPluginName('Wuunder');
+                $ourDispatch = (int)$config['parcelshop_method']; //TODO Make Dynamic
 
-            $entityManager = $this->getEntityManager();
-            $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
-            $basket = $basket_repo->find($basketId);
+                $basket = Shopware()->Session()->connectGetBasket;
+                $basketId = $basket['content'][0]['id'];
 
-            $attribute = $basket->getAttribute();
-            $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+                $entityManager = $this->getEntityManager();
+                $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+                $basket = $basket_repo->find($basketId);
 
-            if ($dispatch == $ourDispatch && empty($parcelshopId)) {
-                $sErrorFlag['sDispatch'] = true;
-                $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
-                return $controller->forward('shippingPayment');
+                $attribute = $basket->getAttribute();
+                $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+
+                if ($dispatch == $ourDispatch && empty($parcelshopId)) {
+                    $sErrorFlag['sDispatch'] = true;
+                    $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+                    return $controller->forward('shippingPayment');
+                }
             }
         }
     }
@@ -74,40 +86,45 @@ class RouteSubscriber implements SubscriberInterface
     {
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->getSubject();
-        $request = $controller->Request();
+        $config = $controller
+            ->get('shopware.plugin.config_reader')
+            ->getByPluginName('Wuunder');
 
-        $action = $request->getActionName();
-        if ($action === 'finish') {
-            $dispatch = Shopware()->Session()['sDispatch'];
-            $ourDispatch = 18; //TODO Make Dynamic
+        if ((int)$config['parcelshop_method_enabled']) {
+            $request = $controller->Request();
 
-            $basket = Shopware()->Session()->connectGetBasket;
-            $basketId = $basket['content'][0]['id'];
+            $action = $request->getActionName();
+            if ($action === 'finish') {
+                $dispatch = Shopware()->Session()['sDispatch'];
+                $ourDispatch = 18; //TODO Make Dynamic
 
-            $entityManager = $this->getEntityManager();
-            $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
-            $basket = $basket_repo->find($basketId);
+                $basket = Shopware()->Session()->connectGetBasket;
+                $basketId = $basket['content'][0]['id'];
 
-            $attribute = $basket->getAttribute();
-            $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+                $entityManager = $this->getEntityManager();
+                $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+                $basket = $basket_repo->find($basketId);
 
-            if ($dispatch == $ourDispatch && empty($parcelshopId)) {
-                $sErrorFlag['sDispatch'] = true;
-                $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+                $attribute = $basket->getAttribute();
+                $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
 
-                return $controller->redirect([
-                    'controller' => 'checkout',
-                    'action' => 'shippingPayment',
-                ]);
-            } else {
-                $args->setReturn(
-                    $args->getSubject()->executeParent(
-                        $args->getMethod(),
-                        $args->getArgs()
-                    )
-                );
+                if ($dispatch == $ourDispatch && empty($parcelshopId)) {
+                    $sErrorFlag['sDispatch'] = true;
+                    $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+
+                    return $controller->redirect([
+                        'controller' => 'checkout',
+                        'action' => 'shippingPayment',
+                    ]);
+                }
             }
         }
+        $args->setReturn(
+            $args->getSubject()->executeParent(
+                $args->getMethod(),
+                $args->getArgs()
+            )
+        );
     }
 
     /**

@@ -74,7 +74,9 @@ class Wuunder extends Plugin
             $assignedData = $view->getAssign('data');
 
             foreach ($assignedData as $key => $order) {
-                $assignedData[$key]["wuunderShipmentData"] = json_encode($this->getShipmentData(intval($assignedData[$key]['id'])));
+                $data = $this->getShipmentData(intval($assignedData[$key]['id']));
+                Shopware()->Container()->get('pluginlogger')->info(json_encode(empty($data) ? array() : $data));
+                $assignedData[$key]["wuunderShipmentData"] = json_encode(empty($data) ? array() : $data);
             }
             $view->data = $assignedData;
         }
