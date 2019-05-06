@@ -58,6 +58,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 - Fixed folder structure plugin [@timoj](https://github.com/timoj)
 
+# Old change log
 
 ## [1.1.3](https://github.com/kabisa/wuunder-webshopplugin-shopware/tree/1.1.3) (2017-12-07)
 [Full Changelog](https://github.com/kabisa/wuunder-webshopplugin-shopware/compare/1.1.2...1.1.3)
