@@ -6,6 +6,7 @@
     <script type="text/javascript">
         var baseUrl = '{config name='base_url' namespace='Wuunder'}';
         var wuunderParcelshopError = '{$wuunderParcelshopError}';
+        var parcelshopMethodId = '{config name='parcelshop_method' namespace='Wuunder'}';
     </script>
     <script src="{link file='custom/plugins/Wuunder/Resources/views/frontend/js/parcelshop.js'}" type="text/javascript"></script>
 {/block}

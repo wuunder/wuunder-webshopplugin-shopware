@@ -47,7 +47,10 @@ class RouteSubscriber implements SubscriberInterface
         $action = $request->getActionName();
         if (($action === 'saveShippingPayment' && !$controller->Request()->getParam('isXHR'))) {
             $dispatch = $controller->Request()->getPost('sDispatch');
-            $ourDispatch = 18; //TODO Make Dynamic
+            $config = $this->container
+                ->get('shopware.plugin.config_reader')
+                ->getByPluginName('Wuunder');
+            $ourDispatch = (int)$config['parcelshop_method']; //TODO Make Dynamic
 
             $basket = Shopware()->Session()->connectGetBasket;
             $basketId = $basket['content'][0]['id'];

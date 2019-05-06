@@ -61,6 +61,11 @@
             <label>Order status after booking</label>
             <store>Shopware.apps.Base.store.OrderStatus</store>
         </element>
+        <element type="select">
+            <name>parcelshop_method</name>
+            <label>Shipping method for parcelshop locator</label>
+            <store>Shopware.apps.Base.store.Dispatch</store>
+        </element>
         <element type="text">
             <name>base_url</name>
             <label>Root url of the shopware installation</label>

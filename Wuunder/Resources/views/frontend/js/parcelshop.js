@@ -1,7 +1,7 @@
 // Get the modal
 var shippingAddress;
 var parcelshopAddress;
-var parcelshopShippingMethodElem = document.getElementById('confirm_dispatch18');
+var parcelshopShippingMethodElem = document.getElementById('confirm_dispatch' + parcelshopMethodId);
 var exists = false;
 var save = true;
 
@@ -54,7 +54,7 @@ function _checkIfParcelshopExists() {
 }
 
 function _onShippingMethodChange() {
-    var parcelshopShippingMethodElem = document.getElementById('confirm_dispatch18'); //TODO dynamic
+    var parcelshopShippingMethodElem = document.getElementById('confirm_dispatch' + parcelshopMethodId);
 
     if (parcelshopShippingMethodElem.checked) {
         var container = document.createElement('tr');

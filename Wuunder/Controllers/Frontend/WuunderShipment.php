@@ -17,7 +17,7 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
         $entity_manager = $this->container->get('models');
 
         $shipment_repo = $entity_manager->getRepository(WuunderShipment::class);
-
+        $shipment = $shipment_repo->findOneBy(['order_id' => $order_id]);
         $data = $params['shipment'];
 
         if ($params['action'] === "shipment_booked") {
