@@ -11,7 +11,6 @@ function r(f) {
 }
 
 r(function () {
-    console.log("HI");
     initParcelshopLocator();
     // $('body > div.page-wrap > section > div > div > div > div > div.confirm--actions.table--actions.block.actions--bottom > button').on('click', checkParcelshopSelection);
     jQuery.subscribe('plugin/swShippingPayment/onInputChanged', initParcelshopLocator);
