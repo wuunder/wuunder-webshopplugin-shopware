@@ -1,4 +1,3 @@
-
 # Change Log
 All notable changes to this project will be documented in this file.
 Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` or `Security`.
