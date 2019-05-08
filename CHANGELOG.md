@@ -5,6 +5,12 @@ Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` o
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 
+## 2019-05-08
+
+### Added
+
+- Fixed SW 5.5 change to database schema crud actions[@timoj](https://github.com/timoj)
+
 ## 2019-05-06
 
 ### Added
