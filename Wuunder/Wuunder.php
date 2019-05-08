@@ -26,6 +26,19 @@ class Wuunder extends Plugin
     }
 
     /**
+     * Compare versions.
+     * @param string $version Like: 5.0.0
+     * @param string $operator Like: <=
+     *
+     * @return mixed
+     */
+    public function versionCompare($version, $operator)
+    {
+        // return by default version compare
+        return version_compare(Shopware()->Config()->get('Version'), $version, $operator);
+    }
+
+    /**
      * Loads composer dependencies.
      */
     public function onStartDispatch()
@@ -112,20 +125,26 @@ class Wuunder extends Plugin
      */
     public function installAttributes()
     {
-        Shopware()->Models()->addAttribute(
-            's_order_basket_attributes',
-            'wuunderconnector',
-            'wuunder_parcelshop_id',
-            'VARCHAR(255)',
-            true,
-            null);
-        Shopware()->Models()->addAttribute(
-            's_order_details_attributes',
-            'wuunderconnector',
-            'wuunder_parcelshop_id',
-            'VARCHAR(255)',
-            true,
-            null);
+        if ($this->versionCompare('5.5.0', '>=')) {
+            $service = $this->container->get('shopware_attribute.crud_service');
+            $service->update('s_order_basket_attributes', 'wuunderconnector_wuunder_parcelshop_id', 'string');
+            $service->update('s_order_details_attributes', 'wuunderconnector_wuunder_parcelshop_id', 'string');
+        } else {
+            Shopware()->Models()->addAttribute(
+                's_order_basket_attributes',
+                'wuunderconnector',
+                'wuunder_parcelshop_id',
+                'VARCHAR(255)',
+                true,
+                null);
+            Shopware()->Models()->addAttribute(
+                's_order_details_attributes',
+                'wuunderconnector',
+                'wuunder_parcelshop_id',
+                'VARCHAR(255)',
+                true,
+                null);
+        }
 
         $metaDataCacheDoctrine = Shopware()->Models()->getConfiguration()->getMetadataCacheImpl();
         $metaDataCacheDoctrine->deleteAll();
@@ -141,14 +160,20 @@ class Wuunder extends Plugin
      */
     public function uninstallAttributes()
     {
-        Shopware()->Models()->removeAttribute(
-            's_order_basket_attributes',
-            'wuunderconnector',
-            'wuunder_parcelshop_id');
-        Shopware()->Models()->addAttribute(
-            's_order_details_attributes',
-            'wuunderconnector',
-            'wuunder_parcelshop_id');
+        if ($this->versionCompare('5.5.0', '>=')) {
+            $service = $this->container->get('shopware_attribute.crud_service');
+            $service->delete('s_order_basket_attributes', 'wuunderconnector_wuunder_parcelshop_id');
+            $service->delete('s_order_details_attributes', 'wuunderconnector_wuunder_parcelshop_id');
+        } else {
+            Shopware()->Models()->removeAttribute(
+                's_order_basket_attributes',
+                'wuunderconnector',
+                'wuunder_parcelshop_id');
+            Shopware()->Models()->addAttribute(
+                's_order_details_attributes',
+                'wuunderconnector',
+                'wuunder_parcelshop_id');
+        }
 
         $metaDataCacheDoctrine = Shopware()->Models()->getConfiguration()->getMetadataCacheImpl();
         $metaDataCacheDoctrine->deleteAll();
