@@ -88,7 +88,7 @@ class Wuunder extends Plugin
 
             foreach ($assignedData as $key => $order) {
                 $data = $this->getShipmentData(intval($assignedData[$key]['id']));
-                $assignedData[$key]["wuunderShipmentData"] = json_encode(empty($data) ? array() : $data);
+                $assignedData[$key]["wuunderShipmentData"] = json_encode($data);
             }
             $view->data = $assignedData;
         }
