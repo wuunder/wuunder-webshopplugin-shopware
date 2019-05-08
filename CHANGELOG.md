@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 
+- Fix wrong icons for unbooked orders[@timoj](https://github.com/timoj)
 - Fixed SW 5.5 change to database schema crud actions[@timoj](https://github.com/timoj)
 
 ## 2019-05-06
