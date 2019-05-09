@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Fixed
 
-Fix wrong icon tooltips
+- Fix wrong icon tooltips
 
 ## 2019-05-08
 
