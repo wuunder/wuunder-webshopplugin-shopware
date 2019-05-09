@@ -5,9 +5,15 @@ Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` o
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 
+## 2019-05-09
+
+### Fixed
+
+Fix wrong icon tooltips
+
 ## 2019-05-08
 
-### Added
+### Fixed
 
 - Fix wrong icons for unbooked orders[@timoj](https://github.com/timoj)
 - Fixed SW 5.5 change to database schema crud actions[@timoj](https://github.com/timoj)
