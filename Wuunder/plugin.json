@@ -8,9 +8,10 @@
   "license": "proprietary",
   "link": "http:\/\/www.wearewuunder.com",
   "author": "Wuunder",
-  "currentVersion": "1.2.4",
+  "currentVersion": "1.3.0",
   "changelog": {
     "nl": {
+      "1.3.0": "Added parcelshop locator",
       "1.2.4": "Fixed mix street and housenumber field",
       "1.2.3": "Added track&trace code",
       "1.2.2": "Fixed check config",
@@ -26,6 +27,7 @@
       "1.0.0": "Wuunder module"
     },
     "en": {
+      "1.3.0": "Added parcelshop locator",
       "1.2.4": "Fixed mix street and housenumber field",
       "1.2.3": "Added track&trace code",
       "1.2.2": "Fixed check config",
@@ -41,6 +43,7 @@
       "1.0.0": "Wuunder module"
     },
     "de": {
+      "1.3.0": "Added parcelshop locator",
       "1.2.4": "Fixed mix street and housenumber field",
       "1.2.3": "Added track&trace code",
       "1.2.2": "Fixed check config",
