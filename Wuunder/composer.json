@@ -1,5 +1,6 @@
 {
   "require": {
-    "nategood/httpful": "*"
+    "nategood/httpful": "*",
+    "wuunder/connector-php": ">=1.0.0"
   }
 }

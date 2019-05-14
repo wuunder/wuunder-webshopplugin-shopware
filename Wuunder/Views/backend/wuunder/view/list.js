@@ -33,7 +33,7 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
                 var data = JSON.parse(record.data.wuunderShipmentData);
                 if (data !== null) {
                     if (data.id !== "" && data.id !== null) {
-                        return "wuunder-icons wuunder-print-icon";
+                        return "wuunder-icons wuunder-hidden-icon";
                     } else {
                         return "wuunder-icons wuunder-create-icon";
                     }
@@ -65,7 +65,46 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
             {
                 // iconCls: 'wuunder-create-icon',
                 action: 'shipOrder',
-                tooltip: 'Ship with Wuunder',
+                tooltip: 'Print Shipping label',
+                dataIndex: 'wuunderShipmentData',
+                getClass: function (value, meta, record, rowIndex, colIndex, store) {
+                    var data = JSON.parse(record.data.wuunderShipmentData);
+                    if (data !== null) {
+                        console.log(data);
+                        if (data.id !== "" && data.id !== null) {
+                            return "wuunder-icons wuunder-print-icon";
+                        } else {
+                            return "wuunder-icons wuunder-hidden-icon";
+                        }
+                    }
+                    return "wuunder-icons wuunder-hidden-icon";
+                },
+                /**
+                 * Add button handler to fire the showDetail event which is handled
+                 * in the list controller.
+                 */
+                handler: function (view, rowIndex, colIndex, item) {
+                    var store = view.getStore(),
+                        record = store.getAt(rowIndex);
+
+                    var data = JSON.parse(record.data.wuunderShipmentData);
+                    if (data !== null) {
+                        if (data.id !== "" && data.id !== null) {
+                            me.fireEvent('printLabel', data.labelUrl);
+                        } else {
+                            me.fireEvent('shipOrder', record);
+                        }
+                    } else {
+                        me.fireEvent('shipOrder', record);
+                    }
+
+
+                }
+            },
+            {
+                // iconCls: 'wuunder-create-icon',
+                action: 'shipOrder',
+                tooltip: 'View track and trace info',
                 dataIndex: 'wuunderShipmentData',
                 getClass: function (value, meta, record, rowIndex, colIndex, store) {
                     var data = JSON.parse(record.data.wuunderShipmentData);

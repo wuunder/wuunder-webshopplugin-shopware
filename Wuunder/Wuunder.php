@@ -13,6 +13,7 @@ use Shopware\Components\Plugin\Context\UninstallContext;
 use Shopware\Components\Plugin\Context\UpdateContext;
 use Wuunder\Models\WuunderShipment;
 
+
 class Wuunder extends Plugin
 {
     public static function getSubscribedEvents()
@@ -20,8 +21,21 @@ class Wuunder extends Plugin
         return [
             'Enlight_Controller_Front_StartDispatch' => 'onStartDispatch',
             'Enlight_Controller_Action_PostDispatchSecure_Backend_Order' => 'onPostDispatch',
-            'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'onPostDispatchBackendIndex'
+            'Enlight_Controller_Action_PostDispatch_Backend_Index' => 'onPostDispatchBackendIndex',
         ];
+    }
+
+    /**
+     * Compare versions.
+     * @param string $version Like: 5.0.0
+     * @param string $operator Like: <=
+     *
+     * @return mixed
+     */
+    public function versionCompare($version, $operator)
+    {
+        // return by default version compare
+        return version_compare(Shopware()->Config()->get('Version'), $version, $operator);
     }
 
     /**
@@ -30,6 +44,11 @@ class Wuunder extends Plugin
     public function onStartDispatch()
     {
         require_once $this->getPath() . '/vendor/autoload.php';
+    }
+
+    public function registerMyComponents()
+    {
+        require_once $this->Path() . '/vendor/autoload.php';
     }
 
     public function onPostDispatchBackendIndex(Enlight_Event_EventArgs $args)
@@ -68,7 +87,8 @@ class Wuunder extends Plugin
             $assignedData = $view->getAssign('data');
 
             foreach ($assignedData as $key => $order) {
-                $assignedData[$key]["wuunderShipmentData"] = json_encode($this->getShipmentData(intval($assignedData[$key]['id'])));
+                $data = $this->getShipmentData(intval($assignedData[$key]['id']));
+                $assignedData[$key]["wuunderShipmentData"] = json_encode($data);
             }
             $view->data = $assignedData;
         }
@@ -95,7 +115,73 @@ class Wuunder extends Plugin
         }
 
         $schema_tool->createSchema($meta_data);
+
+        $this->installAttributes();
     }
+
+    /**
+     * install new basket/order attributes
+     * @return multitype:boolean multitype:string
+     */
+    public function installAttributes()
+    {
+        if ($this->versionCompare('5.5.0', '>=')) {
+            $service = $this->container->get('shopware_attribute.crud_service');
+            $service->update('s_order_basket_attributes', 'wuunderconnector_wuunder_parcelshop_id', 'string');
+            $service->update('s_order_details_attributes', 'wuunderconnector_wuunder_parcelshop_id', 'string');
+        } else {
+            Shopware()->Models()->addAttribute(
+                's_order_basket_attributes',
+                'wuunderconnector',
+                'wuunder_parcelshop_id',
+                'VARCHAR(255)',
+                true,
+                null);
+            Shopware()->Models()->addAttribute(
+                's_order_details_attributes',
+                'wuunderconnector',
+                'wuunder_parcelshop_id',
+                'VARCHAR(255)',
+                true,
+                null);
+        }
+
+        $metaDataCacheDoctrine = Shopware()->Models()->getConfiguration()->getMetadataCacheImpl();
+        $metaDataCacheDoctrine->deleteAll();
+
+        Shopware()->Models()->generateAttributeModels(array('s_order_basket_attributes'));
+        Shopware()->Models()->generateAttributeModels(array('s_order_details_attributes'));
+    }
+
+
+    /**
+     * uninstall new basket/order attributes
+     * @return multitype:boolean multitype:string
+     */
+    public function uninstallAttributes()
+    {
+        if ($this->versionCompare('5.5.0', '>=')) {
+            $service = $this->container->get('shopware_attribute.crud_service');
+            $service->delete('s_order_basket_attributes', 'wuunderconnector_wuunder_parcelshop_id');
+            $service->delete('s_order_details_attributes', 'wuunderconnector_wuunder_parcelshop_id');
+        } else {
+            Shopware()->Models()->removeAttribute(
+                's_order_basket_attributes',
+                'wuunderconnector',
+                'wuunder_parcelshop_id');
+            Shopware()->Models()->addAttribute(
+                's_order_details_attributes',
+                'wuunderconnector',
+                'wuunder_parcelshop_id');
+        }
+
+        $metaDataCacheDoctrine = Shopware()->Models()->getConfiguration()->getMetadataCacheImpl();
+        $metaDataCacheDoctrine->deleteAll();
+
+        Shopware()->Models()->generateAttributeModels(array('s_order_basket_attributes'));
+        Shopware()->Models()->generateAttributeModels(array('s_order_details_attributes'));
+    }
+
 
     public function activate(ActivateContext $context)
     {
@@ -114,7 +200,7 @@ class Wuunder extends Plugin
 
     function uninstall(UninstallContext $context)
     {
-        parent::install($context);
+        parent::uninstall($context);
         //Setup models in schema
         /** @var EntityManager $models */
         $models = $this->container->get('models');
@@ -124,6 +210,11 @@ class Wuunder extends Plugin
         //Drop schema
         try {
             $schema_tool->dropSchema($meta_data);
+        } catch (\Exception $e) { /* Ignore Exception*/
+        }
+
+        try {
+            $this->uninstallAttributes();
         } catch (\Exception $e) { /* Ignore Exception*/
         }
     }

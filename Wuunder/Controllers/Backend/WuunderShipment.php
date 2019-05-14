@@ -4,14 +4,19 @@ use Httpful\Request;
 use Httpful\Mime;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Order\Order;
+use Shopware\Models\Order\Detail;
 use Wuunder\Controllers\Traits\ReturnsJson;
 use Wuunder\Models\WuunderShipment;
+use Wuunder\Models\WuunderParcelshop;
+use Doctrine\ORM\EntityManager;
+use Shopware\Components\Model\ModelManager;
+
 
 class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
     use ReturnsJson;
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.2.4", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.0", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -39,7 +44,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             ->addHeaders($headers)
             ->sendsAndExpects(Mime::JSON)
             ->send();
-
         $redirect = $res->headers->toArray()['location'];
 
         $entity_manager = $this->get('models');
@@ -102,6 +106,10 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             }
         }
 
+        $order_detail_repo = Shopware()->Models()->getRepository(Detail::class);
+        $detail = $order_detail_repo->findOneBy(['orderId' => $order_id]);
+        $parcelshopId = $detail->getAttribute()->getWuunderconnectorWuunderParcelshopId();
+
         $delivery_address = [
             'business' => $shippingAddress->getCompany(),
             'chamber_of_commerce_number' => $address->getVatId(),
@@ -122,7 +130,8 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'customer_reference' => $order->getNumber(),
             'description' => $description,
             'preferred_service_level' => $preferredServiceLevel,
-            'source' => self::$WUUNDER_PLUGIN_VERSION
+            'source' => self::$WUUNDER_PLUGIN_VERSION,
+            'parcelshop_id' => isset($parcelshopId) ? $parcelshopId : null
         ];
 
         return $body;

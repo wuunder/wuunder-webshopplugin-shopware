@@ -3,7 +3,23 @@ All notable changes to this project will be documented in this file.
 Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` or `Security`.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
-## Released
+## Unreleased
+
+
+## [1.3.0](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.0) - 2019-05-14
+
+### Fixed
+
+- Fix wrong icon tooltips
+- Fix wrong icons for unbooked orders[@timoj](https://github.com/timoj)
+- Fixed SW 5.5 change to database schema crud actions[@timoj](https://github.com/timoj)
+
+### Added
+
+- Added parcelshop locator [@timoj](https://github.com/timoj)
+- Added config for dispatch selection for locator [@timoj](https://github.com/timoj)
+- Added config for en-/disabling the locator [@timoj](https://github.com/timoj)
+- Added checkout validation for the locator [@timoj](https://github.com/timoj)
 
 ## [1.2.3](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.2.3) - 2018-11-07
 
@@ -46,7 +62,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fix
 
 - Fixed folder structure plugin [@timoj](https://github.com/timoj)
-
 
 # Old change log
 

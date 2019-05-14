@@ -61,6 +61,27 @@
             <label>Order status after booking</label>
             <store>Shopware.apps.Base.store.OrderStatus</store>
         </element>
+        <element type="select">
+            <name>parcelshop_method</name>
+            <label>Shipping method for parcelshop locator</label>
+            <store>Shopware.apps.Base.store.Dispatch</store>
+        </element>
+        <element type="select">
+            <name>parcelshop_method_enabled</name>
+            <label>Enable parcelshop method</label>
+            <store>
+                <option>
+                    <value>1</value>
+                    <label lang="de">Ja</label>
+                    <label lang="en">Yes</label>
+                </option>
+                <option>
+                    <value>0</value>
+                    <label lang="de">Nein</label>
+                    <label lang="en">No</label>
+                </option>
+            </store>
+        </element>
         <element type="text">
             <name>base_url</name>
             <label>Root url of the shopware installation</label>
@@ -86,6 +107,12 @@
             <name>api_key</name>
             <label>Wuunder api key</label>
             <value></value>
+        </element>
+        <!-- Available Carriers -->
+        <element type="text">
+            <name>available_carriers</name>
+            <label>Available parcelshop carriers</label>
+            <value>dpd,dhl,postnl</value>
         </element>
         <!-- Filters -->
         <element type="text">
