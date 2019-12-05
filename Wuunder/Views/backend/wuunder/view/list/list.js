@@ -34,7 +34,7 @@ Ext.define('Shopware.apps.Wuunder.view.list.List', {
         var me = this;
 
         return Ext.create('Ext.grid.column.Action', {
-            width: 50,
+            width: 75,
             items: [
                 me.createWuunderIcon()
             ]
