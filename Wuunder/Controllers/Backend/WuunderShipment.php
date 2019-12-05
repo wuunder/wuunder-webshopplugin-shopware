@@ -89,7 +89,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $description = "";
         $orderDetails = $order->getDetails();
         foreach ($orderDetails as $orderDetail) {
-            $description .= $orderDetail->getArticleName() . "\r\n";
+            $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
         }
 
         $config = Shopware()->Container()
