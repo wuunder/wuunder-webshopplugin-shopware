@@ -27,7 +27,7 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
             success: function (response, opts) {
                 var data = Ext.decode(response.responseText);
                 Ext.util.Cookies.set('wuunderOrderOverviewAfterRedirect', 1);
-                window.location = data.redirect;
+                window.location.href = data.redirect;
             }
         });
     },
