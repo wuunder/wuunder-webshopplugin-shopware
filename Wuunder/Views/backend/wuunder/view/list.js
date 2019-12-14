@@ -70,7 +70,6 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
                 getClass: function (value, meta, record, rowIndex, colIndex, store) {
                     var data = JSON.parse(record.data.wuunderShipmentData);
                     if (data !== null) {
-                        console.log(data);
                         if (data.id !== "" && data.id !== null) {
                             return "wuunder-icons wuunder-print-icon";
                         } else {
