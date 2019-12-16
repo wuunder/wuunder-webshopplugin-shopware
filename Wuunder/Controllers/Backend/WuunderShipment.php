@@ -71,8 +71,12 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $description = "";
         $orderDetails = $order->getDetails();
+        $value = 0;
+        $weight = 0;
         foreach ($orderDetails as $orderDetail) {
             $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
+            $value += round($orderDetail->getPrice(), 2) * 100;
+            $weight += round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
         }
 
         $config = Shopware()->Container()
@@ -119,6 +123,8 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'delivery_address' => $delivery_address,
             'customer_reference' => $order->getNumber(),
             'description' => $description,
+            'value' => $value,
+            'weight' => $weight,
             'preferred_service_level' => $preferredServiceLevel,
             'source' => self::$WUUNDER_PLUGIN_VERSION,
             'parcelshop_id' => isset($parcelshopId) ? $parcelshopId : null,
