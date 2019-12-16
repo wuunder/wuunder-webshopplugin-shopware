@@ -14,11 +14,21 @@
 Ext.define('Shopware.apps.Wuunder.view.List', {
     override: 'Shopware.apps.Order.view.list.List',
 
-    getColumns: function () {
+    createActionColumn: function () {
         var me = this;
-        var columns = me.callParent(arguments);
-        columns.push(me.createWuunderColumn());
-        return columns;
+
+        var items = [
+            me.createOpenCustomerColumn(),
+            /*{if {acl_is_allowed privilege=delete}}*/
+            me.createDeleteOrderColumn(),
+            /*{/if}*/
+            me.createEditOrderColumn()
+        ];
+
+        return Ext.create('Ext.grid.column.Action', {
+            width: 130,
+            items: items.concat(me.createWuunderIcon())
+        });
     },
 
     createWuunderIcon: function () {
@@ -135,16 +145,6 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
 
                 }
             }]
-    },
-
-    createWuunderColumn: function () {
-        var me = this;
-
-        return Ext.create('Ext.grid.column.Action', {
-            width: 50,
-            dataIndex: 'wuunderShipmentData',
-            items: me.createWuunderIcon()
-        });
     }
 });
 //{/block}
