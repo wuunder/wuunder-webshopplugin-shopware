@@ -117,7 +117,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'email_address' => $customer->getEmail(),
             'family_name' => $shippingAddress->getLastname(),
             'given_name' => $shippingAddress->getFirstname(),
-//            'house_number' => $house_number,
             'locality' => $shippingAddress->getCity(),
             'phone_number' => $address->getPhone(),
             'street_name' => $shippingAddress->getStreet(),

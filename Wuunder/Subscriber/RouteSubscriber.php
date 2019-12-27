@@ -98,24 +98,28 @@ class RouteSubscriber implements SubscriberInterface
                 $dispatch = Shopware()->Session()['sDispatch'];
                 $ourDispatch = 18; //TODO Make Dynamic
 
-                $basket = Shopware()->Session()->connectGetBasket;
-                $basketId = $basket['content'][0]['id'];
+                if ($dispatch == $ourDispatch) {
+                    $basket = Shopware()->Session()->connectGetBasket;
+                    $basketId = $basket['content'][0]['id'];
 
-                $entityManager = $this->getEntityManager();
-                $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
-                $basket = $basket_repo->find($basketId);
+                    $entityManager = $this->getEntityManager();
+                    $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+                    $basket = $basket_repo->find($basketId);
 
-                $attribute = $basket->getAttribute();
-                $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+                    if ($basket) {
+                        $attribute = $basket->getAttribute();
+                        $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
 
-                if ($dispatch == $ourDispatch && empty($parcelshopId)) {
-                    $sErrorFlag['sDispatch'] = true;
-                    $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+                        if ($dispatch == $ourDispatch && empty($parcelshopId)) {
+                            $sErrorFlag['sDispatch'] = true;
+                            $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
 
-                    return $controller->redirect([
-                        'controller' => 'checkout',
-                        'action' => 'shippingPayment',
-                    ]);
+                            return $controller->redirect([
+                                'controller' => 'checkout',
+                                'action' => 'shippingPayment',
+                            ]);
+                        }
+                    }
                 }
             }
         }
