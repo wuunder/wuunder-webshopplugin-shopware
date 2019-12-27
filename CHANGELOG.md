@@ -5,6 +5,13 @@ Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` o
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 
+## [1.3.2](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.2) - 2019-11-16
+
+### Fixed
+- Weight and value to API
+- Action buttons in order list
+- Fixed re-login after booking
+
 ## [1.3.1](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.1) - 2019-11-05
 
 ###

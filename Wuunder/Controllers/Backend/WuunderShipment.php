@@ -16,7 +16,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 {
     use ReturnsJson;
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.1", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.2", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -37,7 +37,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $order_id = $this->Request()->getPost('order_id');
 
-        $url = $this->getWuunderRedirectUrl($order_id);
+        $url = intval($config['testmode']) === 1 ? 'https://api-staging.wearewuunder.com/api/bookings?' : 'https://api.wearewuunder.com/api/bookings?';
         $data = $this->getData($order_id);
 
         $res = Request::post($url, $data)
@@ -58,23 +58,6 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $this->returnJson(['redirect' => $redirect, "error" => $res->body]);
     }
 
-    private function getWuunderRedirectUrl($order_id)
-    {
-        $config = Shopware()->Container()
-            ->get('shopware.plugin.config_reader')
-            ->getByPluginName('Wuunder');
-        $base_url = $config['base_url'];
-
-        $redirect_url = $base_url . '/backend';
-        $redirect_url = 'redirect_url=' . urlencode($redirect_url);
-        $webhook_url = $base_url . '/wuunder_shipment?order_id=' . $order_id;
-        $webhook_url = 'webhook_url=' . urlencode($webhook_url);
-
-        $wuunder_redirect = intval($config['testmode']) === 1 ? 'https://api-staging.wearewuunder.com/api/bookings?' : 'https://api.wearewuunder.com/api/bookings?';
-
-        return $wuunder_redirect . $redirect_url . '&' . $webhook_url;
-    }
-
     private function getData($order_id)
     {
         $order_repo = Shopware()->Models()->getRepository(Order::class);
@@ -88,8 +71,12 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $description = "";
         $orderDetails = $order->getDetails();
+        $value = 0;
+        $weight = 0;
         foreach ($orderDetails as $orderDetail) {
             $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
+            $value += round($orderDetail->getPrice(), 2) * 100;
+            $weight += round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
         }
 
         $config = Shopware()->Container()
@@ -123,14 +110,25 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'zip_code' => $shippingAddress->getZipcode(),
         ];
 
+        $config = Shopware()->Container()
+            ->get('shopware.plugin.config_reader')
+            ->getByPluginName('Wuunder');
+        $base_url = $config['base_url'];
+        $redirect_url = $base_url . '/backend/';
+        $webhook_url = $base_url . '/wuunder_shipment?order_id=' . $order_id;
+
         $body = [
             'pickup_address' => $this->getPickupAddress(),
             'delivery_address' => $delivery_address,
             'customer_reference' => $order->getNumber(),
             'description' => $description,
+            'value' => $value,
+            'weight' => $weight,
             'preferred_service_level' => $preferredServiceLevel,
             'source' => self::$WUUNDER_PLUGIN_VERSION,
-            'parcelshop_id' => isset($parcelshopId) ? $parcelshopId : null
+            'parcelshop_id' => isset($parcelshopId) ? $parcelshopId : null,
+            'redirect_url' => $redirect_url,
+            'webhook_url' => $webhook_url
         ];
 
         return $body;
