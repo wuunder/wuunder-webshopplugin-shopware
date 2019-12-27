@@ -122,7 +122,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             'delivery_address' => $delivery_address,
             'customer_reference' => $order->getNumber(),
             'description' => $description,
-            'value' => $value,
+            'value' => round($value),
             'weight' => $weight,
             'preferred_service_level' => $preferredServiceLevel,
             'source' => self::$WUUNDER_PLUGIN_VERSION,
