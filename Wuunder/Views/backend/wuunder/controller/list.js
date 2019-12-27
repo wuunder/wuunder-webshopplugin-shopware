@@ -5,7 +5,6 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
 
     init: function () {
         var me = this;
-        console.log("H1");
 
         me.callParent(arguments);
 
