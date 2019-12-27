@@ -6,6 +6,8 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
     init: function () {
         var me = this;
 
+        me.callParent(arguments);
+
         me.control({
             'order-list-main-window order-list': {
                 shipOrder: me.onShipOrder,
@@ -14,8 +16,6 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
                 showTrackAndTrace: me.onShowTrackAndTrace
             }
         });
-
-        me.callParent(arguments);
     },
 
     onShipOrder: function (record) {
