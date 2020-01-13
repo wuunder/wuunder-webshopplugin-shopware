@@ -16,7 +16,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 {
     use ReturnsJson;
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.3", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.4", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -74,9 +74,13 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $value = 0;
         $weight = 0;
         foreach ($orderDetails as $orderDetail) {
-            $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
-            $value += round($orderDetail->getPrice(), 2) * 100;
-            $weight += round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
+            try {
+                $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
+                $value += round($orderDetail->getPrice(), 2) * 100;
+                $weight += round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
+            } catch (Exception $e) {
+                continue;
+            }
         }
 
         $config = Shopware()->Container()
