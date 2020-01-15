@@ -104,7 +104,7 @@ function _openIframe(baseUrlApi, availableCarrierList) {
     var iframeDiv = document.createElement('div');
     iframeDiv.innerHTML = '<iframe src="' + iframeUrl + '" width="100%" height="100%">';
     iframeDiv.className = "parcelshopPickerIframe";
-    iframeDiv.style.cssText = 'position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 2147483647';
+    iframeDiv.style.cssText = 'position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 2147483647; max-width: 1200px;';
     iframeContainer.appendChild(iframeDiv);
     window.parent.document.getElementsByClassName("chooseParcelshop")[0].appendChild(iframeContainer);
 

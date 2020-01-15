@@ -10,7 +10,7 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
 
         me.control({
             'order-list-main-window order-list': {
-                shipOrder: me.onShipOrder,
+                'wuunder-ship-order': me.onShipOrder,
                 resumeShipOrder: me.onResumeShipOrder,
                 printLabel: me.onPrintLabel,
                 showTrackAndTrace: me.onShowTrackAndTrace
@@ -18,17 +18,23 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
         });
     },
 
-    onShipOrder: function (record) {
+    onShipOrder: function (record_id) {
         Ext.Ajax.request({
             method: 'POST',
             url: '{url controller=WuunderShipment action=redirect}',
-            params: { order_id: record.get('id') },
+            params: { order_id: record_id },
             success: function (response, opts) {
                 var data = Ext.decode(response.responseText);
-                Ext.util.Cookies.set('wuunderOrderOverviewAfterRedirect', 1);
-                window.location.href = data.redirect;
+                if (data.error === null) {
+                    Ext.util.Cookies.set('wuunderOrderOverviewAfterRedirect', 1);
+                    window.location.href = data.redirect;
+                } else {
+                    alert("Sorry, something went wrong. Please check the console for the error details");
+                    console.log(data.error);
+                }
             }
         });
+        return true;
     },
     onResumeShipOrder: function (url) {
         window.location = url;

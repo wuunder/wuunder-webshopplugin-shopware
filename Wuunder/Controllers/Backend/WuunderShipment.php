@@ -16,7 +16,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 {
     use ReturnsJson;
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.3", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.4", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -30,8 +30,21 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             ->getByPluginName('Wuunder');
 
 
+        $api_key = $config['api_key'];
+        $explicit_api_key = null;
+
+        if (intval($config['testmode']) === 1) {
+            $explicit_api_key = $config['api_key_staging'];
+        } else {
+            $explicit_api_key = $config['api_key_prod'];
+        }
+
+        if (!empty($explicit_api_key)) {
+            $api_key = $explicit_api_key;
+        }
+
         $headers = [
-            'Authorization' => 'Bearer ' . $config['api_key'],
+            'Authorization' => 'Bearer ' . $api_key,
             'Content-Type' => 'application/json',
         ];
 
@@ -74,9 +87,13 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $value = 0;
         $weight = 0;
         foreach ($orderDetails as $orderDetail) {
-            $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
-            $value += round($orderDetail->getPrice(), 2) * 100;
-            $weight += round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
+            try {
+                $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
+                $value += round($orderDetail->getPrice(), 2) * 100;
+                $weight += round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
+            } catch (Exception $e) {
+                continue;
+            }
         }
 
         $config = Shopware()->Container()
@@ -86,7 +103,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $selectedDispatch = $order->getDispatch()->getId();
 
         $preferredServiceLevel = "";
-        for ($i=1; $i<5; $i++) {
+        for ($i = 1; $i < 5; $i++) {
             if ($config['mapping_' . $i . '_method'] == $selectedDispatch) {
                 $preferredServiceLevel = $config['mapping_' . $i . '_filter'];
                 break;

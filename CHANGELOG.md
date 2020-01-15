@@ -5,6 +5,13 @@ Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` o
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 
+## [1.3.4](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.4) - 2020-01-13
+
+### Fixed
+- Exception catching for unknown article details
+- Fix for double event firing book button
+
+
 ## [1.3.3](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.3) - 2019-12-27
 
 ### Added
