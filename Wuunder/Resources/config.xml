@@ -4,22 +4,22 @@
         <element type="text">
             <name>firstname</name>
             <label>First name</label>
-            <value>Jack</value>
+            <value></value>
         </element>
         <element type="text">
             <name>lastname</name>
             <label>Last name</label>
-            <value>Sparrow</value>
+            <value></value>
         </element>
         <element type="text">
             <name>email</name>
             <label>Email</label>
-            <value>test@user.com</value>
+            <value></value>
         </element>
         <element type="text">
             <name>business</name>
             <label>Business</label>
-            <value>Buccaneers Inc.</value>
+            <value></value>
         </element>
         <element type="text">
             <name>country</name>
@@ -29,32 +29,32 @@
         <element type="text">
             <name>street_name</name>
             <label>Street name</label>
-            <value>MutinyStreet</value>
+            <value></value>
         </element>
         <element type="text">
             <name>house_number</name>
             <label>House number</label>
-            <value>99</value>
+            <value></value>
         </element>
         <element type="text">
             <name>locality</name>
             <label>Locality</label>
-            <value>Eindhoven</value>
+            <value></value>
         </element>
         <element type="text">
             <name>zip_code</name>
             <label>Zip code</label>
-            <value>5615BN</value>
+            <value></value>
         </element>
         <element type="text">
             <name>phone_number</name>
             <label>Phone number</label>
-            <value>+31612345678</value>
+            <value></value>
         </element>
         <element type="text">
             <name>coc_number</name>
             <label>Chamber of commerce number</label>
-            <value>NL831983DF3D</value>
+            <value></value>
         </element>
         <element type="select">
             <name>order_status</name>
@@ -84,7 +84,7 @@
         </element>
         <element type="text">
             <name>base_url</name>
-            <label>Root url of the shopware installation</label>
+            <label>Root url of the shopware installation, without trailing '/'</label>
             <value></value>
         </element>
         <element type="select">
@@ -106,6 +106,16 @@
         <element type="text">
             <name>api_key</name>
             <label>Wuunder api key</label>
+            <value></value>
+        </element>
+        <element type="text">
+            <name>api_key_prod</name>
+            <label>Wuunder Production key</label>
+            <value></value>
+        </element>
+        <element type="text">
+            <name>api_key_staging</name>
+            <label>Wuunder Staging key</label>
             <value></value>
         </element>
         <!-- Available Carriers -->

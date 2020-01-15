@@ -35,8 +35,6 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
         var me = this;
 
         return [{
-            // iconCls: 'wuunder-create-icon',
-            action: 'shipOrder',
             tooltip: 'Ship with Wuunder',
             dataIndex: 'wuunderShipmentData',
             getClass: function (value, meta, record, rowIndex, colIndex, store) {
@@ -63,24 +61,19 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
                     if (data.id !== "" && data.id !== null) {
                         me.fireEvent('printLabel', data.labelUrl);
                     } else {
-                        me.fireEvent('shipOrder', record);
+                        me.fireEvent('wuunder-ship-order', record.get('id'));
                     }
                 } else {
-                    me.fireEvent('shipOrder', record);
+                    me.fireEvent('wuunder-ship-order', record.get('id'));
                 }
-
-
             }
         },
             {
-                // iconCls: 'wuunder-create-icon',
-                action: 'shipOrder',
                 tooltip: 'Print Shipping label',
                 dataIndex: 'wuunderShipmentData',
                 getClass: function (value, meta, record, rowIndex, colIndex, store) {
                     var data = JSON.parse(record.data.wuunderShipmentData);
                     if (data !== null) {
-                        console.log(data);
                         if (data.id !== "" && data.id !== null) {
                             return "wuunder-icons wuunder-print-icon";
                         } else {
@@ -102,18 +95,16 @@ Ext.define('Shopware.apps.Wuunder.view.List', {
                         if (data.id !== "" && data.id !== null) {
                             me.fireEvent('printLabel', data.labelUrl);
                         } else {
-                            me.fireEvent('shipOrder', record);
+                            me.fireEvent('wuunder-ship-order', record.get('id'));
                         }
                     } else {
-                        me.fireEvent('shipOrder', record);
+                        me.fireEvent('wuunder-ship-order', record.get('id'));
                     }
 
 
                 }
             },
             {
-                // iconCls: 'wuunder-create-icon',
-                action: 'shipOrder',
                 tooltip: 'View track and trace info',
                 dataIndex: 'wuunderShipmentData',
                 getClass: function (value, meta, record, rowIndex, colIndex, store) {

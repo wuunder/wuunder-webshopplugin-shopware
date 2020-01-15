@@ -14,5 +14,5 @@
 }
 
 .parcelshopPickerIframe > iframe {
-    border: none;
+    border: none !important;
 }

@@ -46,12 +46,23 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
     {
         $config = $this->getConfig();
         $parcelshop_id = $this->Request()->getParam('parcelshop_id');
-        $apiKey = $config['api_key'];
+        $api_key = $config['api_key'];
+        $explicit_api_key = null;
+
+        if (intval($config['testmode']) === 1) {
+            $explicit_api_key = $config['api_key_staging'];
+        } else {
+            $explicit_api_key = $config['api_key_prod'];
+        }
+
+        if (!empty($explicit_api_key)) {
+            $api_key = $explicit_api_key;
+        }
         if ($this->Request()->getParam('save')) {
             $this->saveParcelshopId($parcelshop_id);
         }
         //Fetch and return Parcelshop address info
-        die(json_encode($this->getParcelshopAddress($parcelshop_id, $apiKey)));
+        die(json_encode($this->getParcelshopAddress($parcelshop_id, $api_key)));
     }
 
     private function saveParcelshopId($id)
