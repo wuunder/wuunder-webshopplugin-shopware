@@ -5,7 +5,6 @@ use Httpful\Mime;
 use Shopware\Components\CSRFWhitelistAware;
 use Shopware\Models\Order\Order;
 use Shopware\Models\Order\Detail;
-use Wuunder\Controllers\Traits\ReturnsJson;
 use Wuunder\Models\WuunderShipment;
 use Wuunder\Models\WuunderParcelshop;
 use Doctrine\ORM\EntityManager;
@@ -14,7 +13,6 @@ use Shopware\Components\Model\ModelManager;
 
 class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
-    use ReturnsJson;
 
     private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.4", "plugin" => "1.0"));
 
@@ -73,7 +71,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
     private function getData($order_id)
     {
-        $order_repo = Shopware()->Models()->getRepository(Order::class);
+        $order_repo = Shopware()->Models()->getRepository('Shopware\Models\Order\Order');
 
         /** @var Shopware\Models\Order\Order $order */
         $order = $order_repo->find($order_id);
@@ -110,7 +108,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             }
         }
 
-        $order_detail_repo = Shopware()->Models()->getRepository(Detail::class);
+        $order_detail_repo = Shopware()->Models()->getRepository('Shopware\Models\Order\Detail');
         $detail = $order_detail_repo->findOneBy(['orderId' => $order_id]);
         $parcelshopId = $detail->getAttribute()->getWuunderconnectorWuunderParcelshopId();
 
@@ -176,8 +174,23 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
     private function getShop()
     {
         $em = $this->get('models');
-        $repo = $em->getRepository(Shopware\Models\Shop\Shop::class);
+        $repo = $em->getRepository('Shopware\Models\Shop\Shop');
         $shop = $repo->findById(1);
         return $shop[0];
+    }
+
+    /**
+     * Return JSON
+     *
+     * @param $data
+     * @param int $httpCode
+     */
+    protected function returnJson($data, $httpCode = 200)
+    {
+        if ($httpCode !== 200)
+            http_response_code(intval($httpCode));
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
     }
 }

@@ -105,7 +105,7 @@ class Wuunder extends Plugin
         //Setup models in schema
         /** @var EntityManager $models */
         $models = $this->container->get('models');
-        $meta_data[] = $models->getClassMetadata(WuunderShipment::class);
+        $meta_data[] = $models->getClassMetadata('Wuunder\Models\WuunderShipment');
         $schema_tool = new SchemaTool($models);
 
         //Drop schema
@@ -204,7 +204,7 @@ class Wuunder extends Plugin
         //Setup models in schema
         /** @var EntityManager $models */
         $models = $this->container->get('models');
-        $meta_data[] = $models->getClassMetadata(WuunderShipment::class);
+        $meta_data[] = $models->getClassMetadata('Wuunder\Models\WuunderShipment');
         $schema_tool = new SchemaTool($models);
 
         //Drop schema
@@ -224,7 +224,7 @@ class Wuunder extends Plugin
 
         /** @var EntityManager $em */
         $em = $this->container->get('models');
-        $shipment_repo = $em->getRepository(WuunderShipment::class);
+        $shipment_repo = $em->getRepository('Wuunder\Models\WuunderShipment');
         $shipments = $shipment_repo->findBy(['order_id' => $order_id]);
         $shipments = array_map(function (WuunderShipment $shipment) {
             return $shipment->getData();

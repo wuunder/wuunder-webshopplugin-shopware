@@ -67,7 +67,7 @@ class RouteSubscriber implements SubscriberInterface
                 $basketId = $basket['content'][0]['id'];
 
                 $entityManager = $this->getEntityManager();
-                $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+                $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
                 $basket = $basket_repo->find($basketId);
 
                 $attribute = $basket->getAttribute();
@@ -103,7 +103,7 @@ class RouteSubscriber implements SubscriberInterface
                     $basketId = $basket['content'][0]['id'];
 
                     $entityManager = $this->getEntityManager();
-                    $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+                    $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
                     $basket = $basket_repo->find($basketId);
 
                     if ($basket) {

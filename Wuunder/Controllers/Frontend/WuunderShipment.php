@@ -16,7 +16,7 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
         $params = json_decode(file_get_contents('php://input'), true);
         $entity_manager = $this->container->get('models');
 
-        $shipment_repo = $entity_manager->getRepository(WuunderShipment::class);
+        $shipment_repo = $entity_manager->getRepository('Wuunder\Models\WuunderShipment');
         $shipment = $shipment_repo->findOneBy(['order_id' => $order_id]);
         $data = $params['shipment'];
 
@@ -26,12 +26,12 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
             $shipment->setLabelId($data['id']);
             $shipment->setLabelUrl($data['label_url']);
 
-            $order_repo = $entity_manager->getRepository(Order::class);
+            $order_repo = $entity_manager->getRepository('Shopware\Models\Order\Order');
             $order = $order_repo->find($order_id);
             $config = $this->container
                 ->get('shopware.plugin.config_reader')
                 ->getByPluginName('Wuunder');
-            $orderState = $entity_manager->getRepository(Status::class)->find((int)$config['order_status']);
+            $orderState = $entity_manager->getRepository('Shopware\Models\Order\Status')->find((int)$config['order_status']);
             $order->setOrderStatus($orderState);
 
             $entity_manager->persist($shipment);
@@ -40,7 +40,7 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
             $this->returnJson(['success' => true]);
         }
         if ($params['action'] === "track_and_trace_updated") {
-            $order_repo = $entity_manager->getRepository(Order::class);
+            $order_repo = $entity_manager->getRepository('Shopware\Models\Order\Order');
             $order = $order_repo->find($order_id);
             $order->setTrackingCode($params['track_and_trace_code']);
             $entity_manager->persist($shipment);
