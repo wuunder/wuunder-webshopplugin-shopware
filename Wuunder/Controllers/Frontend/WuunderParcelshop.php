@@ -29,7 +29,8 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
 
     public function addressAction()
     {
-        if (!empty($this->container->get('session')->get('sUserId'))) {
+        $userId = $this->container->get('session')->get('sUserId');
+        if (!empty($userId)) {
             $config = $this->getConfig();
             //get user data
             $userData = $this->admin->sGetUserData();
@@ -72,7 +73,7 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
         $basketId = $basket['content'][0]['id'];
 
         $entityManager = $this->getEntityManager();
-        $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+        $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
         $basket = $basket_repo->find($basketId);
 
         $attribute = $basket->getAttribute();
@@ -89,7 +90,7 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
         $basketId = $basket['content'][0]['id'];
 
         $entityManager = $this->getEntityManager();
-        $basket_repo = $entityManager->getRepository(\Shopware\Models\Order\Basket::class);
+        $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
         $basket = $basket_repo->find($basketId);
 
         $attribute = $basket->getAttribute();
