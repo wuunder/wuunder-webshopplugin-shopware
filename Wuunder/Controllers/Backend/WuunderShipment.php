@@ -116,7 +116,9 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $order_detail_repo = Shopware()->Models()->getRepository('Shopware\Models\Order\Detail');
         $detail = $order_detail_repo->findOneBy(['orderId' => $order_id]);
-        $parcelshopId = $detail->getAttribute()->getWuunderconnectorWuunderParcelshopId();
+        if (!empty($detail->getAttribute())) {
+            $parcelshopId = $detail->getAttribute()->getWuunderconnectorWuunderParcelshopId();
+        }
 
         $delivery_address = [
             'business' => $shippingAddress->getCompany(),
