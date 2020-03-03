@@ -91,7 +91,9 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
                 if (is_null($orderDetail->getArticleDetail()) || empty($orderDetail->getArticleDetail())) {
                     $article_repo = Shopware()->Models()->getRepository('Shopware\Models\Article\Article');
                     $article = $article_repo->find($orderDetail->getArticleId());
-                    $weight += $orderDetail->getQuantity() * round($article->getMainDetail()->getWeight(), 2) * 1000;
+                    if (!is_null($article)) {
+                        $weight += $orderDetail->getQuantity() * round($article->getMainDetail()->getWeight(), 2) * 1000;
+                    }
                 } else {
                     $weight += $orderDetail->getQuantity() * round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
                 }
