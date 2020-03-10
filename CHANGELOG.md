@@ -5,6 +5,11 @@ Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` o
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 
+## [1.3.5](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.5) - 2020-03-10
+
+### Added
+- Added support for order inserted via API
+
 ## [1.3.4](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.4) - 2020-01-13
 
 ### Fixed

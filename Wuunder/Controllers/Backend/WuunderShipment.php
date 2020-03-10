@@ -14,7 +14,7 @@ use Shopware\Components\Model\ModelManager;
 class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.4", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.5", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -88,7 +88,15 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
             try {
                 $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
                 $value += round($orderDetail->getPrice(), 2) * 100;
-                $weight += round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
+                if (is_null($orderDetail->getArticleDetail()) || empty($orderDetail->getArticleDetail())) {
+                    $article_repo = Shopware()->Models()->getRepository('Shopware\Models\Article\Article');
+                    $article = $article_repo->find($orderDetail->getArticleId());
+                    if (!is_null($article)) {
+                        $weight += $orderDetail->getQuantity() * round($article->getMainDetail()->getWeight(), 2) * 1000;
+                    }
+                } else {
+                    $weight += $orderDetail->getQuantity() * round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
+                }
             } catch (Exception $e) {
                 continue;
             }
@@ -110,7 +118,9 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $order_detail_repo = Shopware()->Models()->getRepository('Shopware\Models\Order\Detail');
         $detail = $order_detail_repo->findOneBy(['orderId' => $order_id]);
-        $parcelshopId = $detail->getAttribute()->getWuunderconnectorWuunderParcelshopId();
+        if (!empty($detail->getAttribute())) {
+            $parcelshopId = $detail->getAttribute()->getWuunderconnectorWuunderParcelshopId();
+        }
 
         $delivery_address = [
             'business' => $shippingAddress->getCompany(),
