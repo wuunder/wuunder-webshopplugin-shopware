@@ -61,7 +61,7 @@ class RouteSubscriber implements SubscriberInterface
                 $config = $controller
                     ->get('shopware.plugin.config_reader')
                     ->getByPluginName('Wuunder');
-                $ourDispatch = (int)$config['parcelshop_method']; //TODO Make Dynamic
+                $ourDispatch = (int)$config['parcelshop_method'];
 
                 $basket = Shopware()->Session()->connectGetBasket;
                 $basketId = $basket['content'][0]['id'];
@@ -96,7 +96,10 @@ class RouteSubscriber implements SubscriberInterface
             $action = $request->getActionName();
             if ($action === 'finish') {
                 $dispatch = Shopware()->Session()['sDispatch'];
-                $ourDispatch = 18; //TODO Make Dynamic
+                $config = $controller
+                    ->get('shopware.plugin.config_reader')
+                    ->getByPluginName('Wuunder');
+                $ourDispatch = (int)$config['parcelshop_method'];
 
                 if ($dispatch == $ourDispatch) {
                     $basket = Shopware()->Session()->connectGetBasket;
