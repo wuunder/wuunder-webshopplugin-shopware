@@ -80,10 +80,16 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $customer = $order->getCustomer();
         $address = $customer->getDefaultShippingAddress();
 
+        $config = Shopware()->Container()
+            ->get('shopware.plugin.config_reader')
+            ->getByPluginName('Wuunder');
+
         $description = "";
         $orderDetails = $order->getDetails();
         $value = 0;
         $weight = 0;
+        $weight_conversion = intval( empty($config['weight_conversion_to_gram']) ? 1000 :$config['weight_conversion_to_gram'] );
+
         foreach ($orderDetails as $orderDetail) {
             try {
                 $description .= '- ' . $orderDetail->getQuantity() . 'x ' . $orderDetail->getArticleName() . "\r\n";
@@ -92,19 +98,17 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
                     $article_repo = Shopware()->Models()->getRepository('Shopware\Models\Article\Article');
                     $article = $article_repo->find($orderDetail->getArticleId());
                     if (!is_null($article)) {
-                        $weight += $orderDetail->getQuantity() * round($article->getMainDetail()->getWeight(), 2) * 1000;
+                        $weight += $orderDetail->getQuantity() * round($article->getMainDetail()->getWeight(), 2) * $weight_conversion;
                     }
                 } else {
-                    $weight += $orderDetail->getQuantity() * round($orderDetail->getArticleDetail()->getWeight(), 2) * 1000;
+                    $weight += $orderDetail->getQuantity() * round($orderDetail->getArticleDetail()->getWeight(), 2) * $weight_conversion;
                 }
             } catch (Exception $e) {
                 continue;
             }
         }
 
-        $config = Shopware()->Container()
-            ->get('shopware.plugin.config_reader')
-            ->getByPluginName('Wuunder');
+        
 
         $selectedDispatch = $order->getDispatch()->getId();
 

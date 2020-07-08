@@ -150,7 +150,7 @@ function _loadSelectedParcelshopAddress(id) {
         parcelshopAddress = parcelshopInfoHtml;
         _printParcelshopAddress();
     });
-    document.cookie = "parcelshop_id=" + id;
+    // document.cookie = "parcelshop_id=" + id;
 }
 
 // Capitalizes first letter of every new word.

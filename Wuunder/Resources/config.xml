@@ -118,6 +118,11 @@
             <label>Wuunder Staging key</label>
             <value></value>
         </element>
+        <element type="text">
+            <name>weight_conversion_to_gram</name>
+            <label>Conversion to grams (e.g. when shop has kg = 1000)</label>
+            <value>1000</value>
+        </element>
         <!-- Available Carriers -->
         <element type="text">
             <name>available_carriers</name>
