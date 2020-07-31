@@ -34,6 +34,12 @@ class Shopware_Controllers_Frontend_WuunderShipment extends \Enlight_Controller_
             $orderState = $entity_manager->getRepository('Shopware\Models\Order\Status')->find((int)$config['order_status']);
             $order->setOrderStatus($orderState);
 
+            $orderDetails = $order->getDetails();
+
+            foreach ($orderDetails as $detail) {
+                $detail->setShipped(true);
+            }
+
             $entity_manager->persist($shipment);
             $entity_manager->flush();
 
