@@ -5,6 +5,11 @@ Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` o
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 
+## [1.3.8](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.8)
+
+### Fixed
+- Added update to shipped status for articles in order details 
+
 ## [1.3.7](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.7)
 
 ### Fixed
