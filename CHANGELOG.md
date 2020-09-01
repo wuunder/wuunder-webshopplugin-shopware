@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Fixed
 - Fixed to select correct backend environment when fetching parcelshop info after selection
+## [1.3.8](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.8)
+
+### Fixed
+- Added update to shipped status for articles in order details 
 
 ## [1.3.7](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.7)
 

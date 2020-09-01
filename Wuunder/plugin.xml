@@ -17,6 +17,11 @@
         <changes lang="de">Fixed to select correct backend environment when fetching parcelshop info after selection</changes>
         <changes lang="en">Fixed to select correct backend environment when fetching parcelshop info after selection</changes>
     </changelog>
+ 
+    <changelog version="1.3.8">
+        <changes lang="de">Added support for updating shipped status on ordered articles</changes>
+        <changes lang="en">Added support for updating shipped status on ordered articles</changes>
+    </changelog>
 
     <changelog version="1.3.7">
         <changes lang="de">Fixed parcelshop id bug</changes>
