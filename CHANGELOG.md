@@ -5,6 +5,10 @@ Please file changes under `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed` o
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## Unreleased
 
+## [1.3.9](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.9)
+
+### Fixed
+- Fixed to select correct backend environment when fetching parcelshop info after selection
 ## [1.3.8](https://github.com/kabisa/wuunder-webshopplugin-shopware/releases/tag/1.3.8)
 
 ### Fixed

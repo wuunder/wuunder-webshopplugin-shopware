@@ -105,7 +105,7 @@ class Shopware_Controllers_Frontend_WuunderParcelshop extends Enlight_Controller
         if (!$id) {
             echo 'empty id???';
         } else {
-            $connector = new \Wuunder\Connector($apiKey);
+            $connector = new \Wuunder\Connector($apiKey, intval($config['testmode']) === 1);
             $connector->setLanguage("NL");
             $parcelshopRequest = $connector->getParcelshopById();
             $parcelshopConfig = new \Wuunder\Api\Config\ParcelshopConfig();
