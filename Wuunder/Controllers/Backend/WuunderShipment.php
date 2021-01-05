@@ -14,7 +14,7 @@ use Shopware\Components\Model\ModelManager;
 class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.8", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.10", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -43,7 +43,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
 
         $headers = [
             'Authorization' => 'Bearer ' . $api_key,
-            'Content-Type' => 'application/json',
+            // 'Content-Type' => 'application/json', // Outcommented because Httpful request Lib adds the content-type on it's own without overwriting previous set headers
         ];
 
         $order_id = $this->Request()->getPost('order_id');
