@@ -8,11 +8,10 @@
   "license": "proprietary",
   "link": "http:\/\/www.wearewuunder.com",
   "author": "Wuunder",
-  "currentVersion": "1.3.9",
+  "currentVersion": "1.3.10",
   "changelog": {
     "nl": {
       "1.3.9": "Fixed to select correct backend environment when fetching parcelshop info after selection",
-  "currentVersion": "1.3.9",
   "changelog": {
     "nl": {
       "1.3.10": "Fixed dependency issue for requests and security",
