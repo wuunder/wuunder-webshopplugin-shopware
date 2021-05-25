@@ -4,7 +4,6 @@ namespace Wuunder\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Template_Manager;
-use Shopware\Components\Logger;
 use Shopware\Components\Plugin\ConfigReader;
 use Shopware\Models\Order\Order;
 
@@ -32,7 +31,7 @@ class RouteSubscriber implements SubscriberInterface
 
     public function onCheckout(\Enlight_Controller_ActionEventArgs $args)
     {
-        $logger = new Logger;
+        $logger = $this->container->get('pluginlogger');
         $logger->addError('logging onCheckout');
 
         /** @var \Enlight_Controller_Action $controller */
@@ -53,7 +52,7 @@ class RouteSubscriber implements SubscriberInterface
 
     public function onSaveShipping(\Enlight_Controller_ActionEventArgs $args)
     {
-        $logger = new Logger;
+        $logger = $this->container->get('pluginlogger');
         $logger->addError('logging onSaveShipping');
 
         /** @var \Enlight_Controller_Action $controller */
@@ -93,7 +92,7 @@ class RouteSubscriber implements SubscriberInterface
 
     public function onCheckoutFinish(\Enlight_Event_EventArgs $args)
     {
-        $logger = new Logger;
+        $logger = $this->container->get('pluginlogger');
         $logger->addError('logging onCheckoutFinish');
 
         /** @var \Enlight_Controller_Action $controller */
@@ -115,7 +114,7 @@ class RouteSubscriber implements SubscriberInterface
 
                 if ($dispatch == $ourDispatch) {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    // $logger->addError('Basket:' . json_encode($basket));
+                    $logger->addError('Basket:' . json_encode($basket));
                     $logger->addError('test');
 
                     if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
@@ -146,7 +145,7 @@ class RouteSubscriber implements SubscriberInterface
                 } else {
                     $basket = Shopware()->Session()->connectGetBasket;
                     //log basket
-                    // $logger->addError('Basket:' . json_encode($basket));
+                    $logger->addError('Basket:' . json_encode($basket));
                     $logger->addError('test');
 
                     if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
