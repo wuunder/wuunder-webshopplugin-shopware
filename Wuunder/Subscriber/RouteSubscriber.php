@@ -4,12 +4,15 @@ namespace Wuunder\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Template_Manager;
+use Shopware\Components\Logger;
 use Shopware\Components\Plugin\ConfigReader;
 use Shopware\Models\Order\Order;
 
 class RouteSubscriber implements SubscriberInterface
 {
     private $pluginDirectory;
+
+    private $logger;
 
     public static function getSubscribedEvents()
     {
@@ -103,40 +106,52 @@ class RouteSubscriber implements SubscriberInterface
 
                 if ($dispatch == $ourDispatch) {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    $basketId = $basket['content'][0]['id'];
+                    $this->logger->addError('Basket:' . json_encode($basket));
+                    if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
 
-                    $entityManager = $this->getEntityManager();
-                    $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
-                    $basket = $basket_repo->find($basketId);
+                        $basketId = $basket['content'][0]['id'];
 
-                    if ($basket) {
-                        $attribute = $basket->getAttribute();
-                        $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+                        $entityManager = $this->getEntityManager();
+                        $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
+                        $basket = $basket_repo->find($basketId);
 
-                        if ($dispatch == $ourDispatch && empty($parcelshopId)) {
-                            $sErrorFlag['sDispatch'] = true;
-                            $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+                        if ($basket) {
+                            $attribute = $basket->getAttribute();
+                            $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
 
-                            return $controller->redirect([
-                                'controller' => 'checkout',
-                                'action' => 'shippingPayment',
-                            ]);
+                            if ($dispatch == $ourDispatch && empty($parcelshopId)) {
+                                $sErrorFlag['sDispatch'] = true;
+                                $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+
+                                return $controller->redirect([
+                                    'controller' => 'checkout',
+                                    'action' => 'shippingPayment',
+                                ]);
+                            }
                         }
+                    } else {
+                        $this->logger->addError('problematic basket:' . json_encode($basket));
                     }
                 } else {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    $basketId = $basket['content'][0]['id'];
-                    $entityManager = $this->getEntityManager();
-                    $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
-                    $basket = $basket_repo->find($basketId);
+                    //log basket
+                    $this->logger->addError('Basket:' . json_encode($basket));
+                    if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
+                        $basketId = $basket['content'][0]['id'];
+                        $entityManager = $this->getEntityManager();
+                        $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
+                        $basket = $basket_repo->find($basketId);
+                    
+                        if ($basket) {
+                            $attribute = $basket->getAttribute();
+                            $attribute->setWuunderconnectorWuunderParcelshopId(null);
 
-                    if ($basket) {
-                        $attribute = $basket->getAttribute();
-                        $attribute->setWuunderconnectorWuunderParcelshopId(null);
-
-                        $basket->setAttribute($attribute);
-                        $entityManager->persist($basket);
-                        $entityManager->flush();
+                            $basket->setAttribute($attribute);
+                            $entityManager->persist($basket);
+                            $entityManager->flush();
+                        }
+                    } else {
+                        $this->logger->addError('problematic basket:' . json_encode($basket));
                     }
                 }
             }
