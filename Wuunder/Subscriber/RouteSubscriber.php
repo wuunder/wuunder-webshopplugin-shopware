@@ -11,8 +11,6 @@ class RouteSubscriber implements SubscriberInterface
 {
     private $pluginDirectory;
 
-    // private $logger;
-
     public static function getSubscribedEvents()
     {
         return [
@@ -31,9 +29,6 @@ class RouteSubscriber implements SubscriberInterface
 
     public function onCheckout(\Enlight_Controller_ActionEventArgs $args)
     {
-        $logger = $this->container->get('pluginlogger');
-        $logger->addError('logging onCheckout');
-
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
         $config = $controller
@@ -52,9 +47,6 @@ class RouteSubscriber implements SubscriberInterface
 
     public function onSaveShipping(\Enlight_Controller_ActionEventArgs $args)
     {
-        $logger = $this->container->get('pluginlogger');
-        $logger->addError('logging onSaveShipping');
-
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
         $config = $controller
@@ -92,9 +84,6 @@ class RouteSubscriber implements SubscriberInterface
 
     public function onCheckoutFinish(\Enlight_Event_EventArgs $args)
     {
-        $logger = $this->container->get('pluginlogger');
-        $logger->addError('logging onCheckoutFinish');
-
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->getSubject();
         $config = $controller
@@ -114,8 +103,7 @@ class RouteSubscriber implements SubscriberInterface
 
                 if ($dispatch == $ourDispatch) {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    $logger->addError('Basket:' . json_encode($basket));
-                    $logger->addError('test');
+                    Shopware()->PluginLogger()->error('checkout saved', $basket);
 
                     if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
 
@@ -140,14 +128,11 @@ class RouteSubscriber implements SubscriberInterface
                             }
                         }
                     } else {
-                        $logger->addError('problematic basket:' . json_encode($basket));
+                        Shopware()->PluginLogger()->error('Basket missing content id', $basket);
                     }
                 } else {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    //log basket
-                    $logger->addError('Basket:' . json_encode($basket));
-                    $logger->addError('test');
-
+                    Shopware()->PluginLogger()->error('checkout saved', $basket);
                     if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
                         $basketId = $basket['content'][0]['id'];
                         $entityManager = $this->getEntityManager();
@@ -163,7 +148,7 @@ class RouteSubscriber implements SubscriberInterface
                             $entityManager->flush();
                         }
                     } else {
-                        $logger->addError('problematic basket:' . json_encode($basket));
+                        Shopware()->PluginLogger()->error('Basket missing content id', $basket);
                     }
                 }
             }
