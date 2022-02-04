@@ -14,7 +14,7 @@ use Shopware\Components\Model\ModelManager;
 class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Action implements CSRFWhitelistAware
 {
 
-    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.11", "plugin" => "1.0"));
+    private static $WUUNDER_PLUGIN_VERSION = array("product" => "Shopware extension", "version" => array("build" => "1.3.12", "plugin" => "1.0"));
 
     public function getWhitelistedCSRFActions()
     {
@@ -66,7 +66,7 @@ class Shopware_Controllers_Backend_WuunderShipment extends Enlight_Controller_Ac
         $entity_manager->persist($shipment);
         $entity_manager->flush();
 
-        $this->returnJson(['redirect' => $redirect, "error" => $res->body]);
+        $this->returnJson(['redirect' => $redirect, "error" => $res->code != 201 ? $res->body : null]);
     }
 
     private function getData($order_id)
