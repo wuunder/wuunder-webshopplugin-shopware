@@ -103,7 +103,7 @@ class RouteSubscriber implements SubscriberInterface
 
                 if ($dispatch == $ourDispatch) {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    Shopware()->PluginLogger()->error('checkout saved', $basket);
+                    // Shopware()->PluginLogger()->error('checkout saved', $basket);
 
                     if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
 
@@ -132,7 +132,7 @@ class RouteSubscriber implements SubscriberInterface
                     }
                 } else {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    Shopware()->PluginLogger()->error('checkout saved', $basket);
+                    // Shopware()->PluginLogger()->error('checkout saved', $basket);
                     if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
                         $basketId = $basket['content'][0]['id'];
                         $entityManager = $this->getEntityManager();
