@@ -103,40 +103,52 @@ class RouteSubscriber implements SubscriberInterface
 
                 if ($dispatch == $ourDispatch) {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    $basketId = $basket['content'][0]['id'];
+                    // Shopware()->PluginLogger()->error('checkout saved', $basket);
 
-                    $entityManager = $this->getEntityManager();
-                    $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
-                    $basket = $basket_repo->find($basketId);
+                    if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
 
-                    if ($basket) {
-                        $attribute = $basket->getAttribute();
-                        $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+                        $basketId = $basket['content'][0]['id'];
 
-                        if ($dispatch == $ourDispatch && empty($parcelshopId)) {
-                            $sErrorFlag['sDispatch'] = true;
-                            $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+                        $entityManager = $this->getEntityManager();
+                        $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
+                        $basket = $basket_repo->find($basketId);
 
-                            return $controller->redirect([
-                                'controller' => 'checkout',
-                                'action' => 'shippingPayment',
-                            ]);
+                        if ($basket) {
+                            $attribute = $basket->getAttribute();
+                            $parcelshopId = $attribute->getWuunderconnectorWuunderParcelshopId();
+
+                            if ($dispatch == $ourDispatch && empty($parcelshopId)) {
+                                $sErrorFlag['sDispatch'] = true;
+                                $controller->View()->assign('wuunderParcelshopError', "You need to select a parcelshop before continuing", null, Enlight_Template_Manager::SCOPE_ROOT);
+
+                                return $controller->redirect([
+                                    'controller' => 'checkout',
+                                    'action' => 'shippingPayment',
+                                ]);
+                            }
                         }
+                    } else {
+                        Shopware()->PluginLogger()->error('Basket missing content id', $basket);
                     }
                 } else {
                     $basket = Shopware()->Session()->connectGetBasket;
-                    $basketId = $basket['content'][0]['id'];
-                    $entityManager = $this->getEntityManager();
-                    $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
-                    $basket = $basket_repo->find($basketId);
+                    // Shopware()->PluginLogger()->error('checkout saved', $basket);
+                    if ($basket && isset($basket['content']) && isset($basket['content'][0]) && isset($basket['content'][0]['id'])) {
+                        $basketId = $basket['content'][0]['id'];
+                        $entityManager = $this->getEntityManager();
+                        $basket_repo = $entityManager->getRepository('Shopware\Models\Order\Basket');
+                        $basket = $basket_repo->find($basketId);
+                    
+                        if ($basket) {
+                            $attribute = $basket->getAttribute();
+                            $attribute->setWuunderconnectorWuunderParcelshopId(null);
 
-                    if ($basket) {
-                        $attribute = $basket->getAttribute();
-                        $attribute->setWuunderconnectorWuunderParcelshopId(null);
-
-                        $basket->setAttribute($attribute);
-                        $entityManager->persist($basket);
-                        $entityManager->flush();
+                            $basket->setAttribute($attribute);
+                            $entityManager->persist($basket);
+                            $entityManager->flush();
+                        }
+                    } else {
+                        Shopware()->PluginLogger()->error('Basket missing content id', $basket);
                     }
                 }
             }
