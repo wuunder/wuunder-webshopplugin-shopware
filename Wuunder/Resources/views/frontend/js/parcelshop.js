@@ -128,7 +128,7 @@ function _openIframe(baseUrlApi, availableCarrierList) {
             'servicePointPickerClose': onServicePointClose
         };
         if (!(messageData.type in messageHandlers)) {
-            alert('Invalid event type');
+            console.log('Invalid event type');
             return;
         }
         var messageFn = messageHandlers[messageData.type];

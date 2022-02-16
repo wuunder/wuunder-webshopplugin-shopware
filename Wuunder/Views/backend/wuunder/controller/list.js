@@ -29,7 +29,6 @@ Ext.define('Shopware.apps.Wuunder.controller.List', {
                     Ext.util.Cookies.set('wuunderOrderOverviewAfterRedirect', 1);
                     window.location.href = data.redirect;
                 } else {
-                    alert("Sorry, something went wrong. Please check the console for the error details");
                     console.log(data.error);
                 }
             }
